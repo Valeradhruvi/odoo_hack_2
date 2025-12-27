@@ -715,14 +715,6 @@ export type EnumRequestTypeFieldUpdateOperationsInput = {
   set?: $Enums.RequestType
 }
 
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type EnumRequestStatusFieldUpdateOperationsInput = {
   set?: $Enums.RequestStatus
 }
