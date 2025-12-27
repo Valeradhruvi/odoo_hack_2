@@ -143,9 +143,11 @@ export function KanbanBoard({ initialRequests, equipments, technicians, maintena
             if (col) {
                 col.requests.push(req);
             } else {
+                console.warn(`[Kanban] Request ${req.id} has unknown status: ${req.status}, defaulting to NEW`);
                 cols[0].requests.push(req);
             }
         });
+        console.log('[Kanban] Calculated columns:', cols);
         return cols;
     }, [requests]);
 
@@ -256,6 +258,10 @@ export function KanbanBoard({ initialRequests, equipments, technicians, maintena
                 <div className="flex flex-col gap-1">
                     <h1 className="text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-white">Maintenance Board</h1>
                     <p className="text-zinc-500 dark:text-zinc-400 font-medium italic">Track operational health in real-time.</p>
+                    <div className="text-xs text-red-500 font-mono bg-red-50 p-1 border border-red-200 inline-block rounded">
+                        Debug: Total Requests: {requests.length} |
+                        Cols: {columns.map(c => `${c.id}:${c.requests.length}`).join(', ')}
+                    </div>
                 </div>
                 <div className="flex items-center gap-3">
                     <div className="flex -space-x-2 mr-4">
