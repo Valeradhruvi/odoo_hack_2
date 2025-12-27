@@ -52,8 +52,8 @@ export function Card({ request, onClick }: KanbanCardProps) {
             {...listeners}
             onClick={() => onClick?.(request)}
             className={cn(
-                "glass p-4 rounded-2xl transition-all duration-300 cursor-grab active:cursor-grabbing group relative overflow-hidden backdrop-blur-xl",
-                "hover:shadow-2xl hover:shadow-indigo-500/10 hover:-translate-y-1 hover:ring-2 hover:ring-indigo-500/30",
+                "bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 p-4 rounded-2xl transition-all duration-300 cursor-grab active:cursor-grabbing group relative overflow-hidden shrink-0",
+                "hover:shadow-xl hover:shadow-indigo-500/10 hover:-translate-y-1 hover:border-indigo-500/50",
                 isDragging && "opacity-50 ring-2 ring-indigo-500 ring-offset-2 z-[100] rotate-1 scale-105",
                 // Subtle side accent
                 isTypeCorrective ? "border-l-4 border-l-orange-500" : "border-l-4 border-l-emerald-500"
@@ -68,7 +68,7 @@ export function Card({ request, onClick }: KanbanCardProps) {
                         : "bg-emerald-500/10 text-emerald-600 border border-emerald-500/20"
                 )}>
                     {isTypeCorrective ? <AlertTriangle size={12} /> : <Settings size={12} />}
-                    {request.type}
+                    {request.type === 'CORRECTIVE' ? 'Corrective' : 'Preventive'}
                 </div>
                 <span className="text-[11px] font-bold text-zinc-400 font-mono tracking-tighter bg-zinc-100 dark:bg-white/5 px-2 py-0.5 rounded-md self-start uppercase">
                     ID-{String(request.id).padStart(3, '0')}
@@ -76,14 +76,14 @@ export function Card({ request, onClick }: KanbanCardProps) {
             </div>
 
             {/* Main Content */}
-            <h3 className="font-bold text-base text-zinc-900 dark:text-zinc-100 mb-2 leading-snug group-hover:text-indigo-600 transition-colors">
+            <h3 className="font-bold text-sm text-zinc-900 dark:text-zinc-100 mb-2 leading-snug group-hover:text-indigo-600 transition-colors line-clamp-2">
                 {request.subject}
             </h3>
 
             {/* Equipment Tag */}
-            <div className="inline-flex items-center gap-2 px-2 py-1 bg-zinc-100/50 dark:bg-white/5 rounded-lg border border-transparent group-hover:border-zinc-200 dark:group-hover:border-white/10 transition-all mb-4">
-                <Wrench size={13} className="text-zinc-400 group-hover:text-indigo-500 transition-colors" />
-                <span className="text-[11px] font-bold text-zinc-500 dark:text-zinc-400 truncate max-w-[140px]">{request.equipment?.name || "No Equipment"}</span>
+            <div className="inline-flex items-center gap-2 px-2 py-1 bg-zinc-100/50 dark:bg-white/5 rounded-lg border border-transparent group-hover:border-zinc-200 dark:group-hover:border-white/10 transition-all mb-4 max-w-full">
+                <Wrench size={13} className="text-zinc-400 group-hover:text-indigo-500 transition-colors shrink-0" />
+                <span className="text-[11px] font-bold text-zinc-500 dark:text-zinc-400 truncate">{request.equipment?.name || "No Equipment"}</span>
             </div>
 
             {/* Footer Meta */}
@@ -96,7 +96,7 @@ export function Card({ request, onClick }: KanbanCardProps) {
                         : "bg-zinc-500/5 text-zinc-500"
                 )}>
                     <Clock size={13} className={cn(isOverdue && "animate-pulse")} />
-                    {formatDate(request.scheduledDate)}
+                    {new Date(request.scheduledDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                 </div>
 
                 {/* Assigned Person */}

@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { signOut, useSession } from 'next-auth/react';
 import {
     LayoutDashboard,
     Calendar,
@@ -17,16 +18,22 @@ import {
 import { cn } from '@/lib/utils';
 
 const navItems = [
-    { name: 'Kanban Board', href: '/dashboard/kanban', icon: LayoutDashboard },
-    { name: 'Maintenance Calendar', href: '/requests/calendar', icon: Calendar },
-    { name: 'Analytics & Reports', href: '/reports', icon: BarChart3 },
-    { name: 'Equipment Pool', href: '#', icon: Box },
-    { name: 'Teams & Technicians', href: '#', icon: Users },
+    { name: 'Dashboard', href: '/', icon: LayoutDashboard, roles: ['ADMIN', 'TECHNICIAN', 'REQUESTER'] },
+    { name: 'Kanban Board', href: '/dashboard/kanban', icon: Box, roles: ['ADMIN', 'TECHNICIAN'] },
+    { name: 'Maintenance Calendar', href: '/requests/calendar', icon: Calendar, roles: ['ADMIN', 'TECHNICIAN', 'REQUESTER'] },
+    { name: 'Analytics & Reports', href: '/reports', icon: BarChart3, roles: ['ADMIN', 'TECHNICIAN'] },
+    { name: 'Equipment Pool', href: '/equipment', icon: Wrench, roles: ['ADMIN', 'TECHNICIAN', 'REQUESTER'] },
+    { name: 'Teams & Technicians', href: '/teams', icon: Users, roles: ['ADMIN'] },
 ];
 
 export function Sidebar() {
     const pathname = usePathname();
+    const { data: session } = useSession();
     const [isCollapsed, setIsCollapsed] = React.useState(false);
+
+    const userRole = session?.user?.role || 'REQUESTER';
+
+    const filteredNavItems = navItems.filter(item => item.roles.includes(userRole));
 
     return (
         <aside
@@ -52,11 +59,11 @@ export function Sidebar() {
 
             {/* Navigation */}
             <nav className="flex-1 px-4 py-8 space-y-1.5">
-                {navItems.map((item) => {
+                {filteredNavItems.map((item) => {
                     const isActive = pathname === item.href;
                     return (
                         <Link
-                            key={item.href}
+                            key={item.name}
                             href={item.href}
                             className={cn(
                                 "flex items-center gap-3.5 px-3.5 py-3 rounded-2xl transition-all duration-300 group relative",
@@ -82,7 +89,7 @@ export function Sidebar() {
 
             {/* Footer */}
             <div className="p-4 space-y-3">
-                {!isCollapsed && (
+                {!isCollapsed && userRole === 'ADMIN' && (
                     <div className="px-5 py-6 rounded-[24px] bg-gradient-to-br from-indigo-700 to-purple-800 text-white shadow-2xl shadow-indigo-500/20 mb-6 overflow-hidden relative group border border-white/10">
                         <div className="relative z-10">
                             <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
@@ -98,7 +105,10 @@ export function Sidebar() {
                     </div>
                 )}
 
-                <button className="flex items-center gap-3.5 w-full px-4 py-3.5 rounded-2xl text-zinc-500 hover:bg-red-500/10 hover:text-red-600 transition-all duration-300 group font-bold tracking-tight text-[13px]">
+                <button
+                    onClick={() => signOut()}
+                    className="flex items-center gap-3.5 w-full px-4 py-3.5 rounded-2xl text-zinc-500 hover:bg-red-500/10 hover:text-red-600 transition-all duration-300 group font-bold tracking-tight text-[13px]"
+                >
                     <LogOut size={18} className="group-hover:-translate-x-1 transition-transform" />
                     {!isCollapsed && <span>Sign Out System</span>}
                 </button>

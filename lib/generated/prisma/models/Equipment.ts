@@ -302,11 +302,11 @@ export type EquipmentOrderByWithRelationInput = {
 
 export type EquipmentWhereUniqueInput = Prisma.AtLeast<{
   id?: number
+  name?: string
   serialNumber?: string
   AND?: Prisma.EquipmentWhereInput | Prisma.EquipmentWhereInput[]
   OR?: Prisma.EquipmentWhereInput[]
   NOT?: Prisma.EquipmentWhereInput | Prisma.EquipmentWhereInput[]
-  name?: Prisma.StringFilter<"Equipment"> | string
   purchaseDate?: Prisma.DateTimeFilter<"Equipment"> | Date | string
   warrantyEnd?: Prisma.DateTimeNullableFilter<"Equipment"> | Date | string | null
   location?: Prisma.StringFilter<"Equipment"> | string
@@ -319,7 +319,7 @@ export type EquipmentWhereUniqueInput = Prisma.AtLeast<{
   owner?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   team?: Prisma.XOR<Prisma.MaintenanceTeamScalarRelationFilter, Prisma.MaintenanceTeamWhereInput>
   requests?: Prisma.MaintenanceRequestListRelationFilter
-}, "id" | "serialNumber">
+}, "id" | "name" | "serialNumber">
 
 export type EquipmentOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
