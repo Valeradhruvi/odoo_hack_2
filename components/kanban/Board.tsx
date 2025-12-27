@@ -143,9 +143,11 @@ export function KanbanBoard({ initialRequests, equipments, technicians, maintena
             if (col) {
                 col.requests.push(req);
             } else {
+                console.warn(`[Kanban] Request ${req.id} has unknown status: ${req.status}, defaulting to NEW`);
                 cols[0].requests.push(req);
             }
         });
+        console.log('[Kanban] Calculated columns:', cols);
         return cols;
     }, [requests]);
 

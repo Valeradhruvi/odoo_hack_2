@@ -21,7 +21,7 @@ const navItems = [
     { name: 'Maintenance Calendar', href: '/requests/calendar', icon: Calendar },
     { name: 'Analytics & Reports', href: '/reports', icon: BarChart3 },
     { name: 'Equipment Pool', href: '#', icon: Box },
-    { name: 'Teams & Technicians', href: '#', icon: Users },
+    { name: 'Teams & Technicians', href: '/teams', icon: Users },
 ];
 
 export function Sidebar() {
@@ -56,7 +56,7 @@ export function Sidebar() {
                     const isActive = pathname === item.href;
                     return (
                         <Link
-                            key={item.href}
+                            key={item.name}
                             href={item.href}
                             className={cn(
                                 "flex items-center gap-3.5 px-3.5 py-3 rounded-2xl transition-all duration-300 group relative",

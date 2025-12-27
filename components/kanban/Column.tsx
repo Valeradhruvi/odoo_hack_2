@@ -39,7 +39,7 @@ export function Column({ column, onAddTask, onCardClick }: KanbanColumnProps) {
     }
 
     return (
-        <div className="flex flex-col h-full w-[360px] min-w-[360px] glass rounded-[24px] overflow-hidden group/col transition-all duration-300">
+        <div className="flex flex-col h-full w-[360px] min-w-[360px] bg-zinc-100/50 dark:bg-white/5 border border-zinc-200/50 dark:border-white/5 rounded-[24px] overflow-hidden group/col transition-all duration-300">
             {/* Column Header */}
             <div className="p-5 flex items-center justify-between sticky top-0 bg-transparent z-10 border-b border-zinc-200/30 dark:border-white/5 backdrop-blur-md">
                 <div className="flex items-center gap-3">
