@@ -42,7 +42,7 @@ export async function POST(req: Request) {
         );
     } catch (error: any) {
         if (error instanceof z.ZodError) {
-            return NextResponse.json({ message: error.errors[0].message }, { status: 400 });
+            return NextResponse.json({ message: error.message }, { status: 400 });
         }
         return NextResponse.json(
             { message: "Internal server error" },
