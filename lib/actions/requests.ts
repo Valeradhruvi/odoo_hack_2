@@ -41,7 +41,7 @@ export async function createRequest(formData: FormData) {
                 scheduledDate: data.scheduledDate,
                 durationHours: data.durationHours,
                 maintenanceTeamId: data.maintenanceTeamId,
-                createdById: session.user.id,
+                createdById: Number(session.user.id),
             },
         });
     } catch (error: any) {
@@ -54,7 +54,7 @@ export async function createRequest(formData: FormData) {
     redirect("/requests");
 }
 
-export async function updateRequestStatus(requestId: string, formData: FormData) {
+export async function updateRequestStatus(requestId: number, formData: FormData) {
     // Implement status update logic (e.g. for Kanban)
     // This will be called when dragging cards or detailing
 }

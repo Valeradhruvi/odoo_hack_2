@@ -11,12 +11,20 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { createRequest } from "@/lib/actions/requests";
 import { Loader2 } from "lucide-react";
-import { RequestType } from "@/lib/generated/prisma/client";
+import { RequestType } from "@/lib/generated/prisma/enums";
 import { useSearchParams } from "next/navigation";
+import { Controller } from "react-hook-form";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 
 type RequestFormData = z.infer<typeof requestSchema>;
 
-export function RequestForm() {
+export function RequestForm({ equipmentList }: { equipmentList: { id: number; name: string; serialNumber: string }[] }) {
     const searchParams = useSearchParams();
     const initialEquipmentId = searchParams.get("equipmentId") || "";
 
@@ -27,11 +35,12 @@ export function RequestForm() {
         register,
         handleSubmit,
         reset,
+        control,
         formState: { errors },
     } = useForm<RequestFormData>({
         resolver: zodResolver(requestSchema),
         defaultValues: {
-            equipmentId: initialEquipmentId
+            equipmentId: initialEquipmentId ? Number(initialEquipmentId) : undefined
         }
     });
 
@@ -50,7 +59,7 @@ export function RequestForm() {
 
         try {
             const result = await createRequest(formData);
-            if (result?.error) { // createRequest redirects on success, so if we're here with error it returned object
+            if (result?.error) {
                 setMessage(result.error);
             }
         } catch (error) {
@@ -82,7 +91,6 @@ export function RequestForm() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-2">
                             <Label htmlFor="type">Type</Label>
-                            {/* Select would be better */}
                             <select
                                 {...register("type")}
                                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
@@ -95,8 +103,25 @@ export function RequestForm() {
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="equipmentId">Equipment ID</Label>
-                            <Input id="equipmentId" {...register("equipmentId")} placeholder="Equipment ID" defaultValue={initialEquipmentId} />
+                            <Label htmlFor="equipmentId">Equipment</Label>
+                            <Controller
+                                name="equipmentId"
+                                control={control}
+                                render={({ field }) => (
+                                    <Select onValueChange={(val) => field.onChange(Number(val))} defaultValue={field.value ? String(field.value) : undefined}>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select Equipment" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {equipmentList.map((eq) => (
+                                                <SelectItem key={eq.id} value={String(eq.id)}>
+                                                    {eq.name} ({eq.serialNumber})
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                )}
+                            />
                             {errors.equipmentId && <p className="text-sm text-red-500">{errors.equipmentId.message}</p>}
                         </div>
 

@@ -1,96 +1,130 @@
-import { PrismaClient, Role, RequestType, RequestStatus } from '../lib/generated/prisma/client';
-import { prisma } from '../lib/prisma'
-// const prisma = new PrismaClient();
+import { Role, RequestType, RequestStatus } from '../lib/generated/prisma/client';
+import { prisma } from '../lib/prisma';
+import bcrypt from 'bcryptjs';
 
 async function main() {
     console.log('Start seeding ...');
 
     // Clean up existing data
-    // Delete in reverse order of dependencies to avoid foreign key constraints
     await prisma.maintenanceRequest.deleteMany();
     await prisma.equipment.deleteMany();
     await prisma.maintenanceTeam.deleteMany();
     await prisma.department.deleteMany();
+    await prisma.account.deleteMany();
+    await prisma.session.deleteMany();
     await prisma.user.deleteMany();
 
-    // Create Users
+    // Default password for all users: "password123"
+    const hashedPassword = await bcrypt.hash("password123", 10);
+    const now = new Date();
+
+    // Create Users with Explicit IDs
     const admin = await prisma.user.create({
         data: {
-            name: 'Admin User',
+            id: 1,
+            name: 'System Admin',
             email: 'admin@example.com',
             role: Role.ADMIN,
-            image: 'https://i.pravatar.cc/150?u=admin',
+            password: hashedPassword,
+            image: 'https://i.pravatar.cc/150?u=admin_new',
+            updatedAt: now,
+            createdAt: now,
         },
     });
 
     const technician1 = await prisma.user.create({
         data: {
-            name: 'John Tech',
-            email: 'john.tech@example.com',
+            id: 2,
+            name: 'Mike Technician',
+            email: 'mike.tech@example.com',
             role: Role.TECHNICIAN,
-            image: 'https://i.pravatar.cc/150?u=john',
+            password: hashedPassword,
+            image: 'https://i.pravatar.cc/150?u=mike',
+            updatedAt: now,
+            createdAt: now,
         },
     });
 
     const technician2 = await prisma.user.create({
         data: {
-            name: 'Jane Fix',
-            email: 'jane.fix@example.com',
+            id: 3,
+            name: 'Sarah Engineer',
+            email: 'sarah.eng@example.com',
             role: Role.TECHNICIAN,
-            image: 'https://i.pravatar.cc/150?u=jane',
+            password: hashedPassword,
+            image: 'https://i.pravatar.cc/150?u=sarah',
+            updatedAt: now,
+            createdAt: now,
         },
     });
 
     const requester1 = await prisma.user.create({
         data: {
-            name: 'Alice Requester',
-            email: 'alice.req@example.com',
+            id: 4,
+            name: 'Tom Requester',
+            email: 'tom.req@example.com',
             role: Role.REQUESTER,
-            image: 'https://i.pravatar.cc/150?u=alice',
-        },
-    });
-
-    const requester2 = await prisma.user.create({
-        data: {
-            name: 'Bob Employee',
-            email: 'bob.emp@example.com',
-            role: Role.REQUESTER,
-            image: 'https://i.pravatar.cc/150?u=bob',
+            password: hashedPassword,
+            image: 'https://i.pravatar.cc/150?u=tom',
+            updatedAt: now,
+            createdAt: now,
         },
     });
 
     console.log('Users created.');
 
     // Create Departments
-    const deptIT = await prisma.department.create({
+    const deptOperations = await prisma.department.create({
         data: {
-            name: 'IT Department',
+            id: 1,
+            name: 'Operations',
         },
     });
 
-    const deptManufacturing = await prisma.department.create({
+    const deptLogistics = await prisma.department.create({
         data: {
-            name: 'Manufacturing',
+            id: 2,
+            name: 'Logistics',
+        },
+    });
+
+    const deptIT = await prisma.department.create({
+        data: {
+            id: 3,
+            name: 'IT Services',
         },
     });
 
     console.log('Departments created.');
 
     // Create Maintenance Teams
-    const teamHardware = await prisma.maintenanceTeam.create({
+    // Explicit IDs for teams as well
+    await prisma.maintenanceTeam.create({
         data: {
-            name: 'Hardware Support',
+            id: 1,
+            name: 'Electrical Maintenance',
             technicians: {
                 connect: [{ id: technician1.id }],
             },
         },
     });
 
-    const teamMechanics = await prisma.maintenanceTeam.create({
+    await prisma.maintenanceTeam.create({
         data: {
-            name: 'Heavy Mechanics',
+            id: 2,
+            name: 'Mechanical Repairs',
             technicians: {
                 connect: [{ id: technician2.id }],
+            },
+        },
+    });
+
+    await prisma.maintenanceTeam.create({
+        data: {
+            id: 3,
+            name: 'IT Support Team',
+            technicians: {
+                connect: [{ id: admin.id }],
             },
         },
     });
@@ -98,41 +132,47 @@ async function main() {
     console.log('Maintenance Teams created.');
 
     // Create Equipment
-    const laptop1 = await prisma.equipment.create({
+    // Using explicit IDs to be safe
+    // Equipment 1
+    await prisma.equipment.create({
         data: {
-            name: 'MacBook Pro M3',
-            serialNumber: 'SN-MBP-001',
-            purchaseDate: new Date('2024-01-15'),
-            warrantyEnd: new Date('2025-01-15'),
-            location: 'Office 301',
-            departmentId: deptIT.id,
-            ownerId: requester1.id,
-            maintenanceTeamId: teamHardware.id,
+            id: 1,
+            name: 'Conveyor Belt System A',
+            serialNumber: 'CB-2024-001',
+            purchaseDate: new Date('2023-01-10'),
+            warrantyEnd: new Date('2026-01-10'),
+            location: 'Warehouse Zone 1',
+            departmentId: 2, // Logistics
+            ownerId: 4, // Requester1
+            maintenanceTeamId: 2, // Mechanical
         },
     });
 
-    const printer1 = await prisma.equipment.create({
+    // Equipment 2
+    await prisma.equipment.create({
         data: {
-            name: 'HP LaserJet Pro',
-            serialNumber: 'SN-HP-999',
-            purchaseDate: new Date('2023-05-10'),
-            location: 'Reception',
-            departmentId: deptIT.id,
-            ownerId: admin.id, // Admin manages reception equipment
-            maintenanceTeamId: teamHardware.id,
+            id: 2,
+            name: 'Hydraulic Press X100',
+            serialNumber: 'HP-2022-555',
+            purchaseDate: new Date('2022-06-15'),
+            location: 'Factory Floor',
+            departmentId: 1, // Operations
+            ownerId: 4, // Requester1
+            maintenanceTeamId: 2, // Mechanical
         },
     });
 
-    const cncMachine = await prisma.equipment.create({
+    // Equipment 3
+    await prisma.equipment.create({
         data: {
-            name: 'CNC Milling Machine',
-            serialNumber: 'SN-CNC-X500',
-            purchaseDate: new Date('2022-11-20'),
-            warrantyEnd: new Date('2025-11-20'),
-            location: 'Factory Floor A',
-            departmentId: deptManufacturing.id,
-            ownerId: requester2.id,
-            maintenanceTeamId: teamMechanics.id,
+            id: 3,
+            name: 'Main Server Rack',
+            serialNumber: 'SR-9000-PRO',
+            purchaseDate: new Date('2024-03-01'),
+            location: 'Server Room',
+            departmentId: 3, // IT
+            ownerId: 1, // Admin
+            maintenanceTeamId: 3, // IT Support
         },
     });
 
@@ -141,47 +181,71 @@ async function main() {
     // Create Maintenance Requests
     await prisma.maintenanceRequest.create({
         data: {
-            subject: 'Laptop Overheating',
-            description: 'The laptop gets very hot during video calls.',
+            id: 1,
+            subject: 'Conveyor Belt Jammed',
+            description: 'The belt stops moving when loaded with heavy packages.',
             type: RequestType.CORRECTIVE,
-            equipmentId: laptop1.id,
-            scheduledDate: new Date('2024-02-10'),
+            equipmentId: 1,
+            scheduledDate: new Date('2024-12-28'),
             status: RequestStatus.NEW,
-            createdById: requester1.id,
-            // Not assigned yet
+            createdById: 4, // Requester1
+            maintenanceTeamId: 2, // Mechanical
         },
     });
 
     await prisma.maintenanceRequest.create({
         data: {
-            subject: 'Monthly Printer Check',
-            description: 'Routine maintenance and toner replacement.',
-            type: RequestType.PREVENTIVE,
-            equipmentId: printer1.id,
-            scheduledDate: new Date('2024-02-05'),
-            durationHours: 2,
-            status: RequestStatus.REPAIRED,
-            assignedTechnicianId: technician1.id,
-            createdById: admin.id,
-            maintenanceTeamId: teamHardware.id,
-        },
-    });
-
-    await prisma.maintenanceRequest.create({
-        data: {
-            subject: 'CNC Calibration Error',
-            description: 'Z-axis seems to be off by 2mm.',
+            id: 2,
+            subject: 'Hydraulic Fluid Leak',
+            description: 'Detected a small leak near the main piston.',
             type: RequestType.CORRECTIVE,
-            equipmentId: cncMachine.id,
-            scheduledDate: new Date('2024-02-12'),
+            equipmentId: 2,
+            scheduledDate: new Date('2024-12-29'),
+            durationHours: 4,
             status: RequestStatus.IN_PROGRESS,
-            assignedTechnicianId: technician2.id,
-            createdById: requester2.id,
-            maintenanceTeamId: teamMechanics.id,
+            assignedTechnicianId: 3, // Sarah (Tech2)
+            createdById: 4, // Requester1
+            maintenanceTeamId: 2, // Mechanical
+        },
+    });
+
+    await prisma.maintenanceRequest.create({
+        data: {
+            id: 3,
+            subject: 'Quarterly Server Maintenance',
+            description: 'Dust cleaning and hardware check.',
+            type: RequestType.PREVENTIVE,
+            equipmentId: 3,
+            scheduledDate: new Date('2025-01-15'),
+            status: RequestStatus.NEW,
+            createdById: 1, // Admin
+            maintenanceTeamId: 3, // IT Support
         },
     });
 
     console.log('Maintenance Requests created.');
+
+    // Update Sequences
+    // Helper functionality to reset sequences
+    // Note: Tables are mapped strings: "users", "departments", etc.
+    const tables = [
+        "users",
+        "departments",
+        "maintenance_teams",
+        "equipments",
+        "maintenance_requests"
+    ];
+
+    for (const table of tables) {
+        try {
+            await prisma.$executeRawUnsafe(`SELECT setval(pg_get_serial_sequence('${table}', 'id'), (SELECT MAX(id) FROM ${table}) + 1);`);
+            // console.log(`Sequence reset for ${table}`);
+        } catch (error) {
+            console.warn(`Failed to reset sequence for ${table}:`, error);
+        }
+    }
+    console.log('Sequences reset.');
+
     console.log('Seeding finished.');
 }
 

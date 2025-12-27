@@ -20,18 +20,28 @@ export type MaintenanceTeamModel = runtime.Types.Result.DefaultSelection<Prisma.
 
 export type AggregateMaintenanceTeam = {
   _count: MaintenanceTeamCountAggregateOutputType | null
+  _avg: MaintenanceTeamAvgAggregateOutputType | null
+  _sum: MaintenanceTeamSumAggregateOutputType | null
   _min: MaintenanceTeamMinAggregateOutputType | null
   _max: MaintenanceTeamMaxAggregateOutputType | null
 }
 
+export type MaintenanceTeamAvgAggregateOutputType = {
+  id: number | null
+}
+
+export type MaintenanceTeamSumAggregateOutputType = {
+  id: number | null
+}
+
 export type MaintenanceTeamMinAggregateOutputType = {
-  id: string | null
+  id: number | null
   name: string | null
   createdAt: Date | null
 }
 
 export type MaintenanceTeamMaxAggregateOutputType = {
-  id: string | null
+  id: number | null
   name: string | null
   createdAt: Date | null
 }
@@ -43,6 +53,14 @@ export type MaintenanceTeamCountAggregateOutputType = {
   _all: number
 }
 
+
+export type MaintenanceTeamAvgAggregateInputType = {
+  id?: true
+}
+
+export type MaintenanceTeamSumAggregateInputType = {
+  id?: true
+}
 
 export type MaintenanceTeamMinAggregateInputType = {
   id?: true
@@ -101,6 +119,18 @@ export type MaintenanceTeamAggregateArgs<ExtArgs extends runtime.Types.Extension
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: MaintenanceTeamAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: MaintenanceTeamSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: MaintenanceTeamMinAggregateInputType
@@ -131,15 +161,19 @@ export type MaintenanceTeamGroupByArgs<ExtArgs extends runtime.Types.Extensions.
   take?: number
   skip?: number
   _count?: MaintenanceTeamCountAggregateInputType | true
+  _avg?: MaintenanceTeamAvgAggregateInputType
+  _sum?: MaintenanceTeamSumAggregateInputType
   _min?: MaintenanceTeamMinAggregateInputType
   _max?: MaintenanceTeamMaxAggregateInputType
 }
 
 export type MaintenanceTeamGroupByOutputType = {
-  id: string
+  id: number
   name: string
   createdAt: Date
   _count: MaintenanceTeamCountAggregateOutputType | null
+  _avg: MaintenanceTeamAvgAggregateOutputType | null
+  _sum: MaintenanceTeamSumAggregateOutputType | null
   _min: MaintenanceTeamMinAggregateOutputType | null
   _max: MaintenanceTeamMaxAggregateOutputType | null
 }
@@ -163,7 +197,7 @@ export type MaintenanceTeamWhereInput = {
   AND?: Prisma.MaintenanceTeamWhereInput | Prisma.MaintenanceTeamWhereInput[]
   OR?: Prisma.MaintenanceTeamWhereInput[]
   NOT?: Prisma.MaintenanceTeamWhereInput | Prisma.MaintenanceTeamWhereInput[]
-  id?: Prisma.StringFilter<"MaintenanceTeam"> | string
+  id?: Prisma.IntFilter<"MaintenanceTeam"> | number
   name?: Prisma.StringFilter<"MaintenanceTeam"> | string
   createdAt?: Prisma.DateTimeFilter<"MaintenanceTeam"> | Date | string
   technicians?: Prisma.UserListRelationFilter
@@ -181,7 +215,7 @@ export type MaintenanceTeamOrderByWithRelationInput = {
 }
 
 export type MaintenanceTeamWhereUniqueInput = Prisma.AtLeast<{
-  id?: string
+  id?: number
   name?: string
   AND?: Prisma.MaintenanceTeamWhereInput | Prisma.MaintenanceTeamWhereInput[]
   OR?: Prisma.MaintenanceTeamWhereInput[]
@@ -197,21 +231,22 @@ export type MaintenanceTeamOrderByWithAggregationInput = {
   name?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.MaintenanceTeamCountOrderByAggregateInput
+  _avg?: Prisma.MaintenanceTeamAvgOrderByAggregateInput
   _max?: Prisma.MaintenanceTeamMaxOrderByAggregateInput
   _min?: Prisma.MaintenanceTeamMinOrderByAggregateInput
+  _sum?: Prisma.MaintenanceTeamSumOrderByAggregateInput
 }
 
 export type MaintenanceTeamScalarWhereWithAggregatesInput = {
   AND?: Prisma.MaintenanceTeamScalarWhereWithAggregatesInput | Prisma.MaintenanceTeamScalarWhereWithAggregatesInput[]
   OR?: Prisma.MaintenanceTeamScalarWhereWithAggregatesInput[]
   NOT?: Prisma.MaintenanceTeamScalarWhereWithAggregatesInput | Prisma.MaintenanceTeamScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"MaintenanceTeam"> | string
+  id?: Prisma.IntWithAggregatesFilter<"MaintenanceTeam"> | number
   name?: Prisma.StringWithAggregatesFilter<"MaintenanceTeam"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"MaintenanceTeam"> | Date | string
 }
 
 export type MaintenanceTeamCreateInput = {
-  id?: string
   name: string
   createdAt?: Date | string
   technicians?: Prisma.UserCreateNestedManyWithoutTeamsInput
@@ -220,7 +255,7 @@ export type MaintenanceTeamCreateInput = {
 }
 
 export type MaintenanceTeamUncheckedCreateInput = {
-  id?: string
+  id?: number
   name: string
   createdAt?: Date | string
   technicians?: Prisma.UserUncheckedCreateNestedManyWithoutTeamsInput
@@ -229,7 +264,6 @@ export type MaintenanceTeamUncheckedCreateInput = {
 }
 
 export type MaintenanceTeamUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   technicians?: Prisma.UserUpdateManyWithoutTeamsNestedInput
@@ -238,7 +272,7 @@ export type MaintenanceTeamUpdateInput = {
 }
 
 export type MaintenanceTeamUncheckedUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   technicians?: Prisma.UserUncheckedUpdateManyWithoutTeamsNestedInput
@@ -247,19 +281,18 @@ export type MaintenanceTeamUncheckedUpdateInput = {
 }
 
 export type MaintenanceTeamCreateManyInput = {
-  id?: string
+  id?: number
   name: string
   createdAt?: Date | string
 }
 
 export type MaintenanceTeamUpdateManyMutationInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type MaintenanceTeamUncheckedUpdateManyInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -285,6 +318,10 @@ export type MaintenanceTeamCountOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
 }
 
+export type MaintenanceTeamAvgOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+}
+
 export type MaintenanceTeamMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
@@ -295,6 +332,10 @@ export type MaintenanceTeamMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+}
+
+export type MaintenanceTeamSumOrderByAggregateInput = {
+  id?: Prisma.SortOrder
 }
 
 export type MaintenanceTeamNullableScalarRelationFilter = {
@@ -371,7 +412,6 @@ export type MaintenanceTeamUpdateOneWithoutRequestsNestedInput = {
 }
 
 export type MaintenanceTeamCreateWithoutTechniciansInput = {
-  id?: string
   name: string
   createdAt?: Date | string
   equipments?: Prisma.EquipmentCreateNestedManyWithoutTeamInput
@@ -379,7 +419,7 @@ export type MaintenanceTeamCreateWithoutTechniciansInput = {
 }
 
 export type MaintenanceTeamUncheckedCreateWithoutTechniciansInput = {
-  id?: string
+  id?: number
   name: string
   createdAt?: Date | string
   equipments?: Prisma.EquipmentUncheckedCreateNestedManyWithoutTeamInput
@@ -411,13 +451,12 @@ export type MaintenanceTeamScalarWhereInput = {
   AND?: Prisma.MaintenanceTeamScalarWhereInput | Prisma.MaintenanceTeamScalarWhereInput[]
   OR?: Prisma.MaintenanceTeamScalarWhereInput[]
   NOT?: Prisma.MaintenanceTeamScalarWhereInput | Prisma.MaintenanceTeamScalarWhereInput[]
-  id?: Prisma.StringFilter<"MaintenanceTeam"> | string
+  id?: Prisma.IntFilter<"MaintenanceTeam"> | number
   name?: Prisma.StringFilter<"MaintenanceTeam"> | string
   createdAt?: Prisma.DateTimeFilter<"MaintenanceTeam"> | Date | string
 }
 
 export type MaintenanceTeamCreateWithoutEquipmentsInput = {
-  id?: string
   name: string
   createdAt?: Date | string
   technicians?: Prisma.UserCreateNestedManyWithoutTeamsInput
@@ -425,7 +464,7 @@ export type MaintenanceTeamCreateWithoutEquipmentsInput = {
 }
 
 export type MaintenanceTeamUncheckedCreateWithoutEquipmentsInput = {
-  id?: string
+  id?: number
   name: string
   createdAt?: Date | string
   technicians?: Prisma.UserUncheckedCreateNestedManyWithoutTeamsInput
@@ -449,7 +488,6 @@ export type MaintenanceTeamUpdateToOneWithWhereWithoutEquipmentsInput = {
 }
 
 export type MaintenanceTeamUpdateWithoutEquipmentsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   technicians?: Prisma.UserUpdateManyWithoutTeamsNestedInput
@@ -457,7 +495,7 @@ export type MaintenanceTeamUpdateWithoutEquipmentsInput = {
 }
 
 export type MaintenanceTeamUncheckedUpdateWithoutEquipmentsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   technicians?: Prisma.UserUncheckedUpdateManyWithoutTeamsNestedInput
@@ -465,7 +503,6 @@ export type MaintenanceTeamUncheckedUpdateWithoutEquipmentsInput = {
 }
 
 export type MaintenanceTeamCreateWithoutRequestsInput = {
-  id?: string
   name: string
   createdAt?: Date | string
   technicians?: Prisma.UserCreateNestedManyWithoutTeamsInput
@@ -473,7 +510,7 @@ export type MaintenanceTeamCreateWithoutRequestsInput = {
 }
 
 export type MaintenanceTeamUncheckedCreateWithoutRequestsInput = {
-  id?: string
+  id?: number
   name: string
   createdAt?: Date | string
   technicians?: Prisma.UserUncheckedCreateNestedManyWithoutTeamsInput
@@ -497,7 +534,6 @@ export type MaintenanceTeamUpdateToOneWithWhereWithoutRequestsInput = {
 }
 
 export type MaintenanceTeamUpdateWithoutRequestsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   technicians?: Prisma.UserUpdateManyWithoutTeamsNestedInput
@@ -505,7 +541,7 @@ export type MaintenanceTeamUpdateWithoutRequestsInput = {
 }
 
 export type MaintenanceTeamUncheckedUpdateWithoutRequestsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   technicians?: Prisma.UserUncheckedUpdateManyWithoutTeamsNestedInput
@@ -513,7 +549,6 @@ export type MaintenanceTeamUncheckedUpdateWithoutRequestsInput = {
 }
 
 export type MaintenanceTeamUpdateWithoutTechniciansInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   equipments?: Prisma.EquipmentUpdateManyWithoutTeamNestedInput
@@ -521,7 +556,7 @@ export type MaintenanceTeamUpdateWithoutTechniciansInput = {
 }
 
 export type MaintenanceTeamUncheckedUpdateWithoutTechniciansInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   equipments?: Prisma.EquipmentUncheckedUpdateManyWithoutTeamNestedInput
@@ -529,7 +564,7 @@ export type MaintenanceTeamUncheckedUpdateWithoutTechniciansInput = {
 }
 
 export type MaintenanceTeamUncheckedUpdateManyWithoutTechniciansInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -629,7 +664,7 @@ export type $MaintenanceTeamPayload<ExtArgs extends runtime.Types.Extensions.Int
     requests: Prisma.$MaintenanceRequestPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: string
+    id: number
     name: string
     createdAt: Date
   }, ExtArgs["result"]["maintenanceTeam"]>
@@ -1058,7 +1093,7 @@ export interface Prisma__MaintenanceTeamClient<T, Null = never, ExtArgs extends 
  * Fields of the MaintenanceTeam model
  */
 export interface MaintenanceTeamFieldRefs {
-  readonly id: Prisma.FieldRef<"MaintenanceTeam", 'String'>
+  readonly id: Prisma.FieldRef<"MaintenanceTeam", 'Int'>
   readonly name: Prisma.FieldRef<"MaintenanceTeam", 'String'>
   readonly createdAt: Prisma.FieldRef<"MaintenanceTeam", 'DateTime'>
 }

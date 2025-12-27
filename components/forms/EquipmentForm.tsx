@@ -11,10 +11,23 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 import { createEquipment } from "@/lib/actions/equipment";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import { Controller } from "react-hook-form";
 
 type EquipmentFormData = z.infer<typeof equipmentSchema>;
 
-export function EquipmentForm() {
+interface EquipmentFormProps {
+    departments: { id: number; name: string }[];
+    teams: { id: number; name: string }[];
+}
+
+export function EquipmentForm({ departments, teams }: EquipmentFormProps) {
     const [isLoading, setIsLoading] = useState(false);
     const [message, setMessage] = useState<string | null>(null);
 
@@ -22,6 +35,7 @@ export function EquipmentForm() {
         register,
         handleSubmit,
         reset,
+        control,
         formState: { errors },
     } = useForm<EquipmentFormData>({
         resolver: zodResolver(equipmentSchema),
@@ -88,16 +102,48 @@ export function EquipmentForm() {
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="departmentId">Department ID</Label>
-                            {/* In a real app, this would be a Select dropdown fetching departments */}
-                            <Input id="departmentId" {...register("departmentId")} placeholder="Dept ID" />
+                            <Label htmlFor="departmentId">Department</Label>
+                            <Controller
+                                name="departmentId"
+                                control={control}
+                                render={({ field }) => (
+                                    <Select onValueChange={field.onChange} defaultValue={String(field.value || "")}>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select a department" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {departments.map((dept) => (
+                                                <SelectItem key={dept.id} value={String(dept.id)}>
+                                                    {dept.name}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                )}
+                            />
                             {errors.departmentId && <p className="text-sm text-red-500">{errors.departmentId.message}</p>}
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="maintenanceTeamId">Maintenance Team ID</Label>
-                            {/* In a real app, this would be a Select dropdown */}
-                            <Input id="maintenanceTeamId" {...register("maintenanceTeamId")} placeholder="Team ID" />
+                            <Label htmlFor="maintenanceTeamId">Maintenance Team</Label>
+                            <Controller
+                                name="maintenanceTeamId"
+                                control={control}
+                                render={({ field }) => (
+                                    <Select onValueChange={field.onChange} defaultValue={String(field.value || "")}>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select a team" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {teams.map((team) => (
+                                                <SelectItem key={team.id} value={String(team.id)}>
+                                                    {team.name}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                )}
+                            />
                             {errors.maintenanceTeamId && <p className="text-sm text-red-500">{errors.maintenanceTeamId.message}</p>}
                         </div>
                     </div>

@@ -27,43 +27,53 @@ export type AggregateMaintenanceRequest = {
 }
 
 export type MaintenanceRequestAvgAggregateOutputType = {
+  id: number | null
+  equipmentId: number | null
   durationHours: number | null
+  assignedTechnicianId: number | null
+  createdById: number | null
+  maintenanceTeamId: number | null
 }
 
 export type MaintenanceRequestSumAggregateOutputType = {
+  id: number | null
+  equipmentId: number | null
   durationHours: number | null
+  assignedTechnicianId: number | null
+  createdById: number | null
+  maintenanceTeamId: number | null
 }
 
 export type MaintenanceRequestMinAggregateOutputType = {
-  id: string | null
+  id: number | null
   subject: string | null
   description: string | null
   type: $Enums.RequestType | null
-  equipmentId: string | null
+  equipmentId: number | null
   scheduledDate: Date | null
   durationHours: number | null
   status: $Enums.RequestStatus | null
-  assignedTechnicianId: string | null
-  createdById: string | null
+  assignedTechnicianId: number | null
+  createdById: number | null
   createdAt: Date | null
   updatedAt: Date | null
-  maintenanceTeamId: string | null
+  maintenanceTeamId: number | null
 }
 
 export type MaintenanceRequestMaxAggregateOutputType = {
-  id: string | null
+  id: number | null
   subject: string | null
   description: string | null
   type: $Enums.RequestType | null
-  equipmentId: string | null
+  equipmentId: number | null
   scheduledDate: Date | null
   durationHours: number | null
   status: $Enums.RequestStatus | null
-  assignedTechnicianId: string | null
-  createdById: string | null
+  assignedTechnicianId: number | null
+  createdById: number | null
   createdAt: Date | null
   updatedAt: Date | null
-  maintenanceTeamId: string | null
+  maintenanceTeamId: number | null
 }
 
 export type MaintenanceRequestCountAggregateOutputType = {
@@ -85,11 +95,21 @@ export type MaintenanceRequestCountAggregateOutputType = {
 
 
 export type MaintenanceRequestAvgAggregateInputType = {
+  id?: true
+  equipmentId?: true
   durationHours?: true
+  assignedTechnicianId?: true
+  createdById?: true
+  maintenanceTeamId?: true
 }
 
 export type MaintenanceRequestSumAggregateInputType = {
+  id?: true
+  equipmentId?: true
   durationHours?: true
+  assignedTechnicianId?: true
+  createdById?: true
+  maintenanceTeamId?: true
 }
 
 export type MaintenanceRequestMinAggregateInputType = {
@@ -228,19 +248,19 @@ export type MaintenanceRequestGroupByArgs<ExtArgs extends runtime.Types.Extensio
 }
 
 export type MaintenanceRequestGroupByOutputType = {
-  id: string
+  id: number
   subject: string
   description: string | null
   type: $Enums.RequestType
-  equipmentId: string
+  equipmentId: number
   scheduledDate: Date
   durationHours: number | null
   status: $Enums.RequestStatus
-  assignedTechnicianId: string | null
-  createdById: string
+  assignedTechnicianId: number | null
+  createdById: number
   createdAt: Date
   updatedAt: Date
-  maintenanceTeamId: string | null
+  maintenanceTeamId: number | null
   _count: MaintenanceRequestCountAggregateOutputType | null
   _avg: MaintenanceRequestAvgAggregateOutputType | null
   _sum: MaintenanceRequestSumAggregateOutputType | null
@@ -267,19 +287,19 @@ export type MaintenanceRequestWhereInput = {
   AND?: Prisma.MaintenanceRequestWhereInput | Prisma.MaintenanceRequestWhereInput[]
   OR?: Prisma.MaintenanceRequestWhereInput[]
   NOT?: Prisma.MaintenanceRequestWhereInput | Prisma.MaintenanceRequestWhereInput[]
-  id?: Prisma.StringFilter<"MaintenanceRequest"> | string
+  id?: Prisma.IntFilter<"MaintenanceRequest"> | number
   subject?: Prisma.StringFilter<"MaintenanceRequest"> | string
   description?: Prisma.StringNullableFilter<"MaintenanceRequest"> | string | null
   type?: Prisma.EnumRequestTypeFilter<"MaintenanceRequest"> | $Enums.RequestType
-  equipmentId?: Prisma.StringFilter<"MaintenanceRequest"> | string
+  equipmentId?: Prisma.IntFilter<"MaintenanceRequest"> | number
   scheduledDate?: Prisma.DateTimeFilter<"MaintenanceRequest"> | Date | string
   durationHours?: Prisma.IntNullableFilter<"MaintenanceRequest"> | number | null
   status?: Prisma.EnumRequestStatusFilter<"MaintenanceRequest"> | $Enums.RequestStatus
-  assignedTechnicianId?: Prisma.StringNullableFilter<"MaintenanceRequest"> | string | null
-  createdById?: Prisma.StringFilter<"MaintenanceRequest"> | string
+  assignedTechnicianId?: Prisma.IntNullableFilter<"MaintenanceRequest"> | number | null
+  createdById?: Prisma.IntFilter<"MaintenanceRequest"> | number
   createdAt?: Prisma.DateTimeFilter<"MaintenanceRequest"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"MaintenanceRequest"> | Date | string
-  maintenanceTeamId?: Prisma.StringNullableFilter<"MaintenanceRequest"> | string | null
+  maintenanceTeamId?: Prisma.IntNullableFilter<"MaintenanceRequest"> | number | null
   equipment?: Prisma.XOR<Prisma.EquipmentScalarRelationFilter, Prisma.EquipmentWhereInput>
   assignedTechnician?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   createdBy?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -307,22 +327,22 @@ export type MaintenanceRequestOrderByWithRelationInput = {
 }
 
 export type MaintenanceRequestWhereUniqueInput = Prisma.AtLeast<{
-  id?: string
+  id?: number
   AND?: Prisma.MaintenanceRequestWhereInput | Prisma.MaintenanceRequestWhereInput[]
   OR?: Prisma.MaintenanceRequestWhereInput[]
   NOT?: Prisma.MaintenanceRequestWhereInput | Prisma.MaintenanceRequestWhereInput[]
   subject?: Prisma.StringFilter<"MaintenanceRequest"> | string
   description?: Prisma.StringNullableFilter<"MaintenanceRequest"> | string | null
   type?: Prisma.EnumRequestTypeFilter<"MaintenanceRequest"> | $Enums.RequestType
-  equipmentId?: Prisma.StringFilter<"MaintenanceRequest"> | string
+  equipmentId?: Prisma.IntFilter<"MaintenanceRequest"> | number
   scheduledDate?: Prisma.DateTimeFilter<"MaintenanceRequest"> | Date | string
   durationHours?: Prisma.IntNullableFilter<"MaintenanceRequest"> | number | null
   status?: Prisma.EnumRequestStatusFilter<"MaintenanceRequest"> | $Enums.RequestStatus
-  assignedTechnicianId?: Prisma.StringNullableFilter<"MaintenanceRequest"> | string | null
-  createdById?: Prisma.StringFilter<"MaintenanceRequest"> | string
+  assignedTechnicianId?: Prisma.IntNullableFilter<"MaintenanceRequest"> | number | null
+  createdById?: Prisma.IntFilter<"MaintenanceRequest"> | number
   createdAt?: Prisma.DateTimeFilter<"MaintenanceRequest"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"MaintenanceRequest"> | Date | string
-  maintenanceTeamId?: Prisma.StringNullableFilter<"MaintenanceRequest"> | string | null
+  maintenanceTeamId?: Prisma.IntNullableFilter<"MaintenanceRequest"> | number | null
   equipment?: Prisma.XOR<Prisma.EquipmentScalarRelationFilter, Prisma.EquipmentWhereInput>
   assignedTechnician?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   createdBy?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -354,23 +374,22 @@ export type MaintenanceRequestScalarWhereWithAggregatesInput = {
   AND?: Prisma.MaintenanceRequestScalarWhereWithAggregatesInput | Prisma.MaintenanceRequestScalarWhereWithAggregatesInput[]
   OR?: Prisma.MaintenanceRequestScalarWhereWithAggregatesInput[]
   NOT?: Prisma.MaintenanceRequestScalarWhereWithAggregatesInput | Prisma.MaintenanceRequestScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"MaintenanceRequest"> | string
+  id?: Prisma.IntWithAggregatesFilter<"MaintenanceRequest"> | number
   subject?: Prisma.StringWithAggregatesFilter<"MaintenanceRequest"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"MaintenanceRequest"> | string | null
   type?: Prisma.EnumRequestTypeWithAggregatesFilter<"MaintenanceRequest"> | $Enums.RequestType
-  equipmentId?: Prisma.StringWithAggregatesFilter<"MaintenanceRequest"> | string
+  equipmentId?: Prisma.IntWithAggregatesFilter<"MaintenanceRequest"> | number
   scheduledDate?: Prisma.DateTimeWithAggregatesFilter<"MaintenanceRequest"> | Date | string
   durationHours?: Prisma.IntNullableWithAggregatesFilter<"MaintenanceRequest"> | number | null
   status?: Prisma.EnumRequestStatusWithAggregatesFilter<"MaintenanceRequest"> | $Enums.RequestStatus
-  assignedTechnicianId?: Prisma.StringNullableWithAggregatesFilter<"MaintenanceRequest"> | string | null
-  createdById?: Prisma.StringWithAggregatesFilter<"MaintenanceRequest"> | string
+  assignedTechnicianId?: Prisma.IntNullableWithAggregatesFilter<"MaintenanceRequest"> | number | null
+  createdById?: Prisma.IntWithAggregatesFilter<"MaintenanceRequest"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"MaintenanceRequest"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"MaintenanceRequest"> | Date | string
-  maintenanceTeamId?: Prisma.StringNullableWithAggregatesFilter<"MaintenanceRequest"> | string | null
+  maintenanceTeamId?: Prisma.IntNullableWithAggregatesFilter<"MaintenanceRequest"> | number | null
 }
 
 export type MaintenanceRequestCreateInput = {
-  id?: string
   subject: string
   description?: string | null
   type: $Enums.RequestType
@@ -386,23 +405,22 @@ export type MaintenanceRequestCreateInput = {
 }
 
 export type MaintenanceRequestUncheckedCreateInput = {
-  id?: string
+  id?: number
   subject: string
   description?: string | null
   type: $Enums.RequestType
-  equipmentId: string
+  equipmentId: number
   scheduledDate: Date | string
   durationHours?: number | null
   status?: $Enums.RequestStatus
-  assignedTechnicianId?: string | null
-  createdById: string
+  assignedTechnicianId?: number | null
+  createdById: number
   createdAt?: Date | string
   updatedAt?: Date | string
-  maintenanceTeamId?: string | null
+  maintenanceTeamId?: number | null
 }
 
 export type MaintenanceRequestUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumRequestTypeFieldUpdateOperationsInput | $Enums.RequestType
@@ -418,39 +436,38 @@ export type MaintenanceRequestUpdateInput = {
 }
 
 export type MaintenanceRequestUncheckedUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumRequestTypeFieldUpdateOperationsInput | $Enums.RequestType
-  equipmentId?: Prisma.StringFieldUpdateOperationsInput | string
+  equipmentId?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   durationHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
-  assignedTechnicianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdById?: Prisma.StringFieldUpdateOperationsInput | string
+  assignedTechnicianId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdById?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  maintenanceTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  maintenanceTeamId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type MaintenanceRequestCreateManyInput = {
-  id?: string
+  id?: number
   subject: string
   description?: string | null
   type: $Enums.RequestType
-  equipmentId: string
+  equipmentId: number
   scheduledDate: Date | string
   durationHours?: number | null
   status?: $Enums.RequestStatus
-  assignedTechnicianId?: string | null
-  createdById: string
+  assignedTechnicianId?: number | null
+  createdById: number
   createdAt?: Date | string
   updatedAt?: Date | string
-  maintenanceTeamId?: string | null
+  maintenanceTeamId?: number | null
 }
 
 export type MaintenanceRequestUpdateManyMutationInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumRequestTypeFieldUpdateOperationsInput | $Enums.RequestType
@@ -462,19 +479,19 @@ export type MaintenanceRequestUpdateManyMutationInput = {
 }
 
 export type MaintenanceRequestUncheckedUpdateManyInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumRequestTypeFieldUpdateOperationsInput | $Enums.RequestType
-  equipmentId?: Prisma.StringFieldUpdateOperationsInput | string
+  equipmentId?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   durationHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
-  assignedTechnicianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdById?: Prisma.StringFieldUpdateOperationsInput | string
+  assignedTechnicianId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdById?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  maintenanceTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  maintenanceTeamId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type MaintenanceRequestListRelationFilter = {
@@ -504,7 +521,12 @@ export type MaintenanceRequestCountOrderByAggregateInput = {
 }
 
 export type MaintenanceRequestAvgOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+  equipmentId?: Prisma.SortOrder
   durationHours?: Prisma.SortOrder
+  assignedTechnicianId?: Prisma.SortOrder
+  createdById?: Prisma.SortOrder
+  maintenanceTeamId?: Prisma.SortOrder
 }
 
 export type MaintenanceRequestMaxOrderByAggregateInput = {
@@ -540,7 +562,12 @@ export type MaintenanceRequestMinOrderByAggregateInput = {
 }
 
 export type MaintenanceRequestSumOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+  equipmentId?: Prisma.SortOrder
   durationHours?: Prisma.SortOrder
+  assignedTechnicianId?: Prisma.SortOrder
+  createdById?: Prisma.SortOrder
+  maintenanceTeamId?: Prisma.SortOrder
 }
 
 export type MaintenanceRequestCreateNestedManyWithoutAssignedTechnicianInput = {
@@ -728,7 +755,6 @@ export type EnumRequestStatusFieldUpdateOperationsInput = {
 }
 
 export type MaintenanceRequestCreateWithoutAssignedTechnicianInput = {
-  id?: string
   subject: string
   description?: string | null
   type: $Enums.RequestType
@@ -743,18 +769,18 @@ export type MaintenanceRequestCreateWithoutAssignedTechnicianInput = {
 }
 
 export type MaintenanceRequestUncheckedCreateWithoutAssignedTechnicianInput = {
-  id?: string
+  id?: number
   subject: string
   description?: string | null
   type: $Enums.RequestType
-  equipmentId: string
+  equipmentId: number
   scheduledDate: Date | string
   durationHours?: number | null
   status?: $Enums.RequestStatus
-  createdById: string
+  createdById: number
   createdAt?: Date | string
   updatedAt?: Date | string
-  maintenanceTeamId?: string | null
+  maintenanceTeamId?: number | null
 }
 
 export type MaintenanceRequestCreateOrConnectWithoutAssignedTechnicianInput = {
@@ -768,7 +794,6 @@ export type MaintenanceRequestCreateManyAssignedTechnicianInputEnvelope = {
 }
 
 export type MaintenanceRequestCreateWithoutCreatedByInput = {
-  id?: string
   subject: string
   description?: string | null
   type: $Enums.RequestType
@@ -783,18 +808,18 @@ export type MaintenanceRequestCreateWithoutCreatedByInput = {
 }
 
 export type MaintenanceRequestUncheckedCreateWithoutCreatedByInput = {
-  id?: string
+  id?: number
   subject: string
   description?: string | null
   type: $Enums.RequestType
-  equipmentId: string
+  equipmentId: number
   scheduledDate: Date | string
   durationHours?: number | null
   status?: $Enums.RequestStatus
-  assignedTechnicianId?: string | null
+  assignedTechnicianId?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  maintenanceTeamId?: string | null
+  maintenanceTeamId?: number | null
 }
 
 export type MaintenanceRequestCreateOrConnectWithoutCreatedByInput = {
@@ -827,19 +852,19 @@ export type MaintenanceRequestScalarWhereInput = {
   AND?: Prisma.MaintenanceRequestScalarWhereInput | Prisma.MaintenanceRequestScalarWhereInput[]
   OR?: Prisma.MaintenanceRequestScalarWhereInput[]
   NOT?: Prisma.MaintenanceRequestScalarWhereInput | Prisma.MaintenanceRequestScalarWhereInput[]
-  id?: Prisma.StringFilter<"MaintenanceRequest"> | string
+  id?: Prisma.IntFilter<"MaintenanceRequest"> | number
   subject?: Prisma.StringFilter<"MaintenanceRequest"> | string
   description?: Prisma.StringNullableFilter<"MaintenanceRequest"> | string | null
   type?: Prisma.EnumRequestTypeFilter<"MaintenanceRequest"> | $Enums.RequestType
-  equipmentId?: Prisma.StringFilter<"MaintenanceRequest"> | string
+  equipmentId?: Prisma.IntFilter<"MaintenanceRequest"> | number
   scheduledDate?: Prisma.DateTimeFilter<"MaintenanceRequest"> | Date | string
   durationHours?: Prisma.IntNullableFilter<"MaintenanceRequest"> | number | null
   status?: Prisma.EnumRequestStatusFilter<"MaintenanceRequest"> | $Enums.RequestStatus
-  assignedTechnicianId?: Prisma.StringNullableFilter<"MaintenanceRequest"> | string | null
-  createdById?: Prisma.StringFilter<"MaintenanceRequest"> | string
+  assignedTechnicianId?: Prisma.IntNullableFilter<"MaintenanceRequest"> | number | null
+  createdById?: Prisma.IntFilter<"MaintenanceRequest"> | number
   createdAt?: Prisma.DateTimeFilter<"MaintenanceRequest"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"MaintenanceRequest"> | Date | string
-  maintenanceTeamId?: Prisma.StringNullableFilter<"MaintenanceRequest"> | string | null
+  maintenanceTeamId?: Prisma.IntNullableFilter<"MaintenanceRequest"> | number | null
 }
 
 export type MaintenanceRequestUpsertWithWhereUniqueWithoutCreatedByInput = {
@@ -859,7 +884,6 @@ export type MaintenanceRequestUpdateManyWithWhereWithoutCreatedByInput = {
 }
 
 export type MaintenanceRequestCreateWithoutEquipmentInput = {
-  id?: string
   subject: string
   description?: string | null
   type: $Enums.RequestType
@@ -874,18 +898,18 @@ export type MaintenanceRequestCreateWithoutEquipmentInput = {
 }
 
 export type MaintenanceRequestUncheckedCreateWithoutEquipmentInput = {
-  id?: string
+  id?: number
   subject: string
   description?: string | null
   type: $Enums.RequestType
   scheduledDate: Date | string
   durationHours?: number | null
   status?: $Enums.RequestStatus
-  assignedTechnicianId?: string | null
-  createdById: string
+  assignedTechnicianId?: number | null
+  createdById: number
   createdAt?: Date | string
   updatedAt?: Date | string
-  maintenanceTeamId?: string | null
+  maintenanceTeamId?: number | null
 }
 
 export type MaintenanceRequestCreateOrConnectWithoutEquipmentInput = {
@@ -915,7 +939,6 @@ export type MaintenanceRequestUpdateManyWithWhereWithoutEquipmentInput = {
 }
 
 export type MaintenanceRequestCreateWithoutMaintenanceTeamInput = {
-  id?: string
   subject: string
   description?: string | null
   type: $Enums.RequestType
@@ -930,16 +953,16 @@ export type MaintenanceRequestCreateWithoutMaintenanceTeamInput = {
 }
 
 export type MaintenanceRequestUncheckedCreateWithoutMaintenanceTeamInput = {
-  id?: string
+  id?: number
   subject: string
   description?: string | null
   type: $Enums.RequestType
-  equipmentId: string
+  equipmentId: number
   scheduledDate: Date | string
   durationHours?: number | null
   status?: $Enums.RequestStatus
-  assignedTechnicianId?: string | null
-  createdById: string
+  assignedTechnicianId?: number | null
+  createdById: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -971,37 +994,36 @@ export type MaintenanceRequestUpdateManyWithWhereWithoutMaintenanceTeamInput = {
 }
 
 export type MaintenanceRequestCreateManyAssignedTechnicianInput = {
-  id?: string
+  id?: number
   subject: string
   description?: string | null
   type: $Enums.RequestType
-  equipmentId: string
+  equipmentId: number
   scheduledDate: Date | string
   durationHours?: number | null
   status?: $Enums.RequestStatus
-  createdById: string
+  createdById: number
   createdAt?: Date | string
   updatedAt?: Date | string
-  maintenanceTeamId?: string | null
+  maintenanceTeamId?: number | null
 }
 
 export type MaintenanceRequestCreateManyCreatedByInput = {
-  id?: string
+  id?: number
   subject: string
   description?: string | null
   type: $Enums.RequestType
-  equipmentId: string
+  equipmentId: number
   scheduledDate: Date | string
   durationHours?: number | null
   status?: $Enums.RequestStatus
-  assignedTechnicianId?: string | null
+  assignedTechnicianId?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  maintenanceTeamId?: string | null
+  maintenanceTeamId?: number | null
 }
 
 export type MaintenanceRequestUpdateWithoutAssignedTechnicianInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumRequestTypeFieldUpdateOperationsInput | $Enums.RequestType
@@ -1016,37 +1038,36 @@ export type MaintenanceRequestUpdateWithoutAssignedTechnicianInput = {
 }
 
 export type MaintenanceRequestUncheckedUpdateWithoutAssignedTechnicianInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumRequestTypeFieldUpdateOperationsInput | $Enums.RequestType
-  equipmentId?: Prisma.StringFieldUpdateOperationsInput | string
+  equipmentId?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   durationHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
-  createdById?: Prisma.StringFieldUpdateOperationsInput | string
+  createdById?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  maintenanceTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  maintenanceTeamId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type MaintenanceRequestUncheckedUpdateManyWithoutAssignedTechnicianInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumRequestTypeFieldUpdateOperationsInput | $Enums.RequestType
-  equipmentId?: Prisma.StringFieldUpdateOperationsInput | string
+  equipmentId?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   durationHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
-  createdById?: Prisma.StringFieldUpdateOperationsInput | string
+  createdById?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  maintenanceTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  maintenanceTeamId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type MaintenanceRequestUpdateWithoutCreatedByInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumRequestTypeFieldUpdateOperationsInput | $Enums.RequestType
@@ -1061,52 +1082,51 @@ export type MaintenanceRequestUpdateWithoutCreatedByInput = {
 }
 
 export type MaintenanceRequestUncheckedUpdateWithoutCreatedByInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumRequestTypeFieldUpdateOperationsInput | $Enums.RequestType
-  equipmentId?: Prisma.StringFieldUpdateOperationsInput | string
+  equipmentId?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   durationHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
-  assignedTechnicianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  assignedTechnicianId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  maintenanceTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  maintenanceTeamId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type MaintenanceRequestUncheckedUpdateManyWithoutCreatedByInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumRequestTypeFieldUpdateOperationsInput | $Enums.RequestType
-  equipmentId?: Prisma.StringFieldUpdateOperationsInput | string
+  equipmentId?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   durationHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
-  assignedTechnicianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  assignedTechnicianId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  maintenanceTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  maintenanceTeamId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type MaintenanceRequestCreateManyEquipmentInput = {
-  id?: string
+  id?: number
   subject: string
   description?: string | null
   type: $Enums.RequestType
   scheduledDate: Date | string
   durationHours?: number | null
   status?: $Enums.RequestStatus
-  assignedTechnicianId?: string | null
-  createdById: string
+  assignedTechnicianId?: number | null
+  createdById: number
   createdAt?: Date | string
   updatedAt?: Date | string
-  maintenanceTeamId?: string | null
+  maintenanceTeamId?: number | null
 }
 
 export type MaintenanceRequestUpdateWithoutEquipmentInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumRequestTypeFieldUpdateOperationsInput | $Enums.RequestType
@@ -1121,52 +1141,51 @@ export type MaintenanceRequestUpdateWithoutEquipmentInput = {
 }
 
 export type MaintenanceRequestUncheckedUpdateWithoutEquipmentInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumRequestTypeFieldUpdateOperationsInput | $Enums.RequestType
   scheduledDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   durationHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
-  assignedTechnicianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdById?: Prisma.StringFieldUpdateOperationsInput | string
+  assignedTechnicianId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdById?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  maintenanceTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  maintenanceTeamId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type MaintenanceRequestUncheckedUpdateManyWithoutEquipmentInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumRequestTypeFieldUpdateOperationsInput | $Enums.RequestType
   scheduledDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   durationHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
-  assignedTechnicianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdById?: Prisma.StringFieldUpdateOperationsInput | string
+  assignedTechnicianId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdById?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  maintenanceTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  maintenanceTeamId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type MaintenanceRequestCreateManyMaintenanceTeamInput = {
-  id?: string
+  id?: number
   subject: string
   description?: string | null
   type: $Enums.RequestType
-  equipmentId: string
+  equipmentId: number
   scheduledDate: Date | string
   durationHours?: number | null
   status?: $Enums.RequestStatus
-  assignedTechnicianId?: string | null
-  createdById: string
+  assignedTechnicianId?: number | null
+  createdById: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type MaintenanceRequestUpdateWithoutMaintenanceTeamInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumRequestTypeFieldUpdateOperationsInput | $Enums.RequestType
@@ -1181,31 +1200,31 @@ export type MaintenanceRequestUpdateWithoutMaintenanceTeamInput = {
 }
 
 export type MaintenanceRequestUncheckedUpdateWithoutMaintenanceTeamInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumRequestTypeFieldUpdateOperationsInput | $Enums.RequestType
-  equipmentId?: Prisma.StringFieldUpdateOperationsInput | string
+  equipmentId?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   durationHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
-  assignedTechnicianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdById?: Prisma.StringFieldUpdateOperationsInput | string
+  assignedTechnicianId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdById?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type MaintenanceRequestUncheckedUpdateManyWithoutMaintenanceTeamInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumRequestTypeFieldUpdateOperationsInput | $Enums.RequestType
-  equipmentId?: Prisma.StringFieldUpdateOperationsInput | string
+  equipmentId?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   durationHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
-  assignedTechnicianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdById?: Prisma.StringFieldUpdateOperationsInput | string
+  assignedTechnicianId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdById?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1317,19 +1336,19 @@ export type $MaintenanceRequestPayload<ExtArgs extends runtime.Types.Extensions.
     maintenanceTeam: Prisma.$MaintenanceTeamPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: string
+    id: number
     subject: string
     description: string | null
     type: $Enums.RequestType
-    equipmentId: string
+    equipmentId: number
     scheduledDate: Date
     durationHours: number | null
     status: $Enums.RequestStatus
-    assignedTechnicianId: string | null
-    createdById: string
+    assignedTechnicianId: number | null
+    createdById: number
     createdAt: Date
     updatedAt: Date
-    maintenanceTeamId: string | null
+    maintenanceTeamId: number | null
   }, ExtArgs["result"]["maintenanceRequest"]>
   composites: {}
 }
@@ -1757,19 +1776,19 @@ export interface Prisma__MaintenanceRequestClient<T, Null = never, ExtArgs exten
  * Fields of the MaintenanceRequest model
  */
 export interface MaintenanceRequestFieldRefs {
-  readonly id: Prisma.FieldRef<"MaintenanceRequest", 'String'>
+  readonly id: Prisma.FieldRef<"MaintenanceRequest", 'Int'>
   readonly subject: Prisma.FieldRef<"MaintenanceRequest", 'String'>
   readonly description: Prisma.FieldRef<"MaintenanceRequest", 'String'>
   readonly type: Prisma.FieldRef<"MaintenanceRequest", 'RequestType'>
-  readonly equipmentId: Prisma.FieldRef<"MaintenanceRequest", 'String'>
+  readonly equipmentId: Prisma.FieldRef<"MaintenanceRequest", 'Int'>
   readonly scheduledDate: Prisma.FieldRef<"MaintenanceRequest", 'DateTime'>
   readonly durationHours: Prisma.FieldRef<"MaintenanceRequest", 'Int'>
   readonly status: Prisma.FieldRef<"MaintenanceRequest", 'RequestStatus'>
-  readonly assignedTechnicianId: Prisma.FieldRef<"MaintenanceRequest", 'String'>
-  readonly createdById: Prisma.FieldRef<"MaintenanceRequest", 'String'>
+  readonly assignedTechnicianId: Prisma.FieldRef<"MaintenanceRequest", 'Int'>
+  readonly createdById: Prisma.FieldRef<"MaintenanceRequest", 'Int'>
   readonly createdAt: Prisma.FieldRef<"MaintenanceRequest", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"MaintenanceRequest", 'DateTime'>
-  readonly maintenanceTeamId: Prisma.FieldRef<"MaintenanceRequest", 'String'>
+  readonly maintenanceTeamId: Prisma.FieldRef<"MaintenanceRequest", 'Int'>
 }
     
 

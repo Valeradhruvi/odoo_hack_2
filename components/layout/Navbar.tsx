@@ -45,6 +45,11 @@ export function Navbar() {
                             <Link href="/reports" className="hidden md:block text-sm font-medium hover:underline">
                                 Reports
                             </Link>
+                            {session.user.role === "ADMIN" && (
+                                <Link href="/dashboard/departments" className="hidden md:block text-sm font-medium hover:underline">
+                                    Departments
+                                </Link>
+                            )}
                             <div className="flex items-center gap-2">
                                 <span className="text-sm font-medium hidden sm:inline-block">
                                     {session.user?.name} ({session.user?.role})
