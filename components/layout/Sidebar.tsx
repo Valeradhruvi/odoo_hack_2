@@ -56,7 +56,7 @@ export function Sidebar() {
                     const isActive = pathname === item.href;
                     return (
                         <Link
-                            key={item.href}
+                            key={item.name}
                             href={item.href}
                             className={cn(
                                 "flex items-center gap-3.5 px-3.5 py-3 rounded-2xl transition-all duration-300 group relative",
