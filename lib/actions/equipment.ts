@@ -13,7 +13,7 @@ export async function createEquipment(formData: FormData) {
         return { error: "Unauthorized" };
     }
 
-    const rawData = {
+    const خامrawData = {
         name: formData.get("name"),
         serialNumber: formData.get("serialNumber"),
         location: formData.get("location"),
@@ -23,7 +23,7 @@ export async function createEquipment(formData: FormData) {
         // In a real app we'd likely handle warrantyEnd, etc.
     };
 
-    const validation = equipmentSchema.safeParse(rawData);
+    const validation = equipmentSchema.safeParse(خامrawData);
 
     if (!validation.success) {
         return { error: validation.error.message };
@@ -41,7 +41,7 @@ export async function createEquipment(formData: FormData) {
                 purchaseDate: data.purchaseDate,
                 departmentId: data.departmentId,
                 maintenanceTeamId: data.maintenanceTeamId,
-                ownerId: session.user.id, // Assign creator as owner for now, or handle differently
+                ownerId: Number(session.user.id), // Assign creator as owner for now. Cast to Number
             },
         });
     } catch (error: any) {
@@ -51,4 +51,26 @@ export async function createEquipment(formData: FormData) {
 
     revalidatePath("/equipment");
     redirect("/equipment");
+}
+
+export async function getEquipmentList() {
+    const session = await getServerSession(authOptions);
+    if (!session) return [];
+
+    try {
+        const equipment = await prisma.equipment.findMany({
+            select: {
+                id: true,
+                name: true,
+                serialNumber: true,
+            },
+            orderBy: {
+                name: 'asc',
+            },
+        });
+        return equipment;
+    } catch (error) {
+        console.error("Failed to fetch equipment list:", error);
+        return [];
+    }
 }

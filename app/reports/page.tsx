@@ -1,88 +1,31 @@
-import { prisma } from "@/lib/prisma";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { BarChart, Activity, Users, Wrench } from "lucide-react";
+import { prisma } from '@/lib/prisma';
+import { ReportsView } from '@/components/reports/ReportsView';
+import { MaintenanceRequest } from '@/components/kanban/types';
 
-async function getStats() {
-    const [totalEquipment, totalRequests, totalTeams, openRequests] = await Promise.all([
-        prisma.equipment.count(),
-        prisma.maintenanceRequest.count(),
-        prisma.maintenanceTeam.count(),
-        prisma.maintenanceRequest.count({
-            where: {
-                status: {
-                    in: ['NEW', 'IN_PROGRESS']
-                }
-            }
-        })
-    ]);
-
-    return { totalEquipment, totalRequests, totalTeams, openRequests };
-}
+export const dynamic = 'force-dynamic';
 
 export default async function ReportsPage() {
-    const stats = await getStats();
+    const requests = await prisma.maintenanceRequest.findMany({
+        include: {
+            equipment: true,
+            assignedTechnician: true,
+            maintenanceTeam: true,
+        }
+    });
 
     return (
-        <div className="container mx-auto py-10 px-4">
-            <h1 className="text-3xl font-bold mb-8">Maintenance Reports</h1>
-
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-8">
-                <Card>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Total Equipment</CardTitle>
-                        <Wrench className="h-4 w-4 text-muted-foreground" />
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold">{stats.totalEquipment}</div>
-                    </CardContent>
-                </Card>
-                <Card>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Total Requests</CardTitle>
-                        <Activity className="h-4 w-4 text-muted-foreground" />
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold">{stats.totalRequests}</div>
-                    </CardContent>
-                </Card>
-                <Card>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Active Requests</CardTitle>
-                        <BarChart className="h-4 w-4 text-muted-foreground" />
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold">{stats.openRequests}</div>
-                    </CardContent>
-                </Card>
-                <Card>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Maintenance Teams</CardTitle>
-                        <Users className="h-4 w-4 text-muted-foreground" />
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold">{stats.totalTeams}</div>
-                    </CardContent>
-                </Card>
+        <div className="flex flex-col h-full bg-white dark:bg-black min-h-screen">
+            <div className="flex flex-col gap-1 px-8 py-6 border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-black">
+                <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+                    Maintenance Reports
+                </h1>
+                <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                    Overview of team performance and equipment health.
+                </p>
             </div>
 
-            {/* Charts would go here using Recharts or similar, for now just placeholders */}
-            <div className="grid gap-4 md:grid-cols-2">
-                <Card className="h-[300px]">
-                    <CardHeader>
-                        <CardTitle>Requests by Status</CardTitle>
-                    </CardHeader>
-                    <CardContent className="flex items-center justify-center h-full">
-                        <p className="text-muted-foreground">Chart Implementation Pending</p>
-                    </CardContent>
-                </Card>
-                <Card className="h-[300px]">
-                    <CardHeader>
-                        <CardTitle>Equipment Reliability</CardTitle>
-                    </CardHeader>
-                    <CardContent className="flex items-center justify-center h-full">
-                        <p className="text-muted-foreground">Chart Implementation Pending</p>
-                    </CardContent>
-                </Card>
+            <div className="flex-1 p-6 bg-zinc-50/50 dark:bg-black/50 overflow-hidden">
+                <ReportsView requests={requests as unknown as MaintenanceRequest[]} />
             </div>
         </div>
     );

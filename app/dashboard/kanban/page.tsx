@@ -1,30 +1,47 @@
-import { prisma } from "@/lib/prisma";
-import { KanbanBoard } from "@/components/kanban/Board"; // Need to create this
-import { RequestStatus } from "@/lib/generated/prisma/client";
+import { KanbanBoard } from '@/components/kanban/Board';
+import { prisma } from '@/lib/prisma';
+import { MaintenanceRequest, Equipment, User, MaintenanceTeam } from '@/components/kanban/types';
 
-async function getKanbanData() {
-    const requests = await prisma.maintenanceRequest.findMany({
-        include: {
-            equipment: true,
-            assignedTechnician: true,
-        },
-        orderBy: {
-            updatedAt: 'desc'
-        }
-    });
-    return requests;
-}
+export const dynamic = 'force-dynamic'; // Ensure real-time data
 
 export default async function KanbanPage() {
-    const requests = await getKanbanData();
+    const [requests, equipments, technicians, maintenanceTeams] = await Promise.all([
+        prisma.maintenanceRequest.findMany({
+            include: {
+                equipment: true,
+                assignedTechnician: true,
+                createdBy: true,
+                maintenanceTeam: true,
+            },
+            orderBy: {
+                updatedAt: 'desc',
+            }
+        }),
+        prisma.equipment.findMany(),
+        prisma.user.findMany({
+            where: { role: 'TECHNICIAN' }
+        }),
+        prisma.maintenanceTeam.findMany(),
+    ]);
 
     return (
-        <div className="h-screen flex flex-col">
-            <div className="p-4 border-b">
-                <h1 className="text-2xl font-bold">Maintenance Board</h1>
+        <div className="flex flex-col h-full bg-white dark:bg-black min-h-screen">
+            <div className="flex flex-col gap-1 px-8 py-6 border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-black">
+                <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+                    Maintenance Requests
+                </h1>
+                <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                    Drag and drop cards to update status.
+                </p>
             </div>
-            <div className="flex-1 overflow-x-auto p-4 bg-gray-50 dark:bg-gray-900/50">
-                <KanbanBoard initialData={requests} />
+
+            <div className="flex-1 p-6 bg-zinc-50/50 dark:bg-black/50 overflow-hidden">
+                <KanbanBoard
+                    initialRequests={requests as unknown as MaintenanceRequest[]}
+                    equipments={equipments as unknown as Equipment[]}
+                    technicians={technicians as unknown as User[]}
+                    maintenanceTeams={maintenanceTeams as unknown as MaintenanceTeam[]}
+                />
             </div>
         </div>
     );

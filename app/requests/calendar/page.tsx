@@ -1,69 +1,45 @@
-import { prisma } from "@/lib/prisma";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
+import { CalendarView } from '@/components/calendar/CalendarView';
+import { prisma } from '@/lib/prisma';
+import { MaintenanceRequest, Equipment, User, MaintenanceTeam } from '@/components/kanban/types';
 
-async function getScheduledRequests() {
-    // In a real app, fetch based on month/view
-    return await prisma.maintenanceRequest.findMany({
-        where: {
-            scheduledDate: {
-                gte: new Date() // Future requests only for simplicity? Or just all.
-            }
-        },
-        include: {
-            equipment: true
-        },
-        orderBy: {
-            scheduledDate: 'asc'
-        }
-    });
-}
+export const dynamic = 'force-dynamic';
 
 export default async function CalendarPage() {
-    const requests = await getScheduledRequests();
-
-    // Group by date simple implementation
-    const grouped: Record<string, typeof requests> = {};
-    requests.forEach(req => {
-        const dateKey = new Date(req.scheduledDate).toLocaleDateString();
-        if (!grouped[dateKey]) grouped[dateKey] = [];
-        grouped[dateKey].push(req);
-    });
+    const [requests, equipments, technicians, maintenanceTeams] = await Promise.all([
+        prisma.maintenanceRequest.findMany({
+            // Removed filter to show all requests (Corrective + Preventive)
+            include: {
+                equipment: true,
+                assignedTechnician: true,
+                createdBy: true,
+                maintenanceTeam: true,
+            },
+        }),
+        prisma.equipment.findMany(),
+        prisma.user.findMany({
+            where: { role: 'TECHNICIAN' }
+        }),
+        prisma.maintenanceTeam.findMany(),
+    ]);
 
     return (
-        <div className="container mx-auto py-10 px-4">
-            <div className="flex items-center mb-6">
-                <Button variant="ghost" asChild className="mr-4">
-                    <Link href="/requests">
-                        <ArrowLeft className="mr-2 h-4 w-4" /> List
-                    </Link>
-                </Button>
-                <h1 className="text-3xl font-bold">Maintenance Calendar</h1>
+        <div className="flex flex-col h-full bg-white dark:bg-black min-h-screen">
+            <div className="flex flex-col gap-1 px-8 py-6 border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-black">
+                <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+                    Maintenance Schedule
+                </h1>
+                <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                    Manage upcoming preventive maintenance tasks.
+                </p>
             </div>
 
-            <div className="space-y-8">
-                {Object.entries(grouped).map(([date, reqs]) => (
-                    <div key={date}>
-                        <h3 className="text-lg font-semibold border-b pb-2 mb-4">{date}</h3>
-                        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                            {reqs.map(req => (
-                                <div key={req.id} className="border rounded-lg p-4 bg-card text-card-foreground shadow-sm">
-                                    <div className="font-semibold">{req.subject}</div>
-                                    <div className="text-sm text-muted-foreground">{req.equipment.name}</div>
-                                    <div className="text-xs mt-2 inline-block px-2 py-1 bg-secondary rounded-full">
-                                        {new Date(req.scheduledDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                ))}
-                {requests.length === 0 && (
-                    <div className="text-center py-12 text-muted-foreground">
-                        No upcoming maintenance scheduled.
-                    </div>
-                )}
+            <div className="flex-1 p-6 bg-zinc-50/50 dark:bg-black/50 overflow-hidden">
+                <CalendarView
+                    requests={requests as unknown as MaintenanceRequest[]}
+                    equipments={equipments as unknown as Equipment[]}
+                    technicians={technicians as unknown as User[]}
+                    maintenanceTeams={maintenanceTeams as unknown as MaintenanceTeam[]}
+                />
             </div>
         </div>
     );
