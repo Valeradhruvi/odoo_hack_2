@@ -53,7 +53,7 @@ export const authOptions: NextAuthOptions = {
                 }
 
                 return {
-                    id: String(user.id), // Stringify for NextAuth
+                    id: user.id, // Return number to match User type
                     email: user.email,
                     name: user.name,
                     role: user.role,

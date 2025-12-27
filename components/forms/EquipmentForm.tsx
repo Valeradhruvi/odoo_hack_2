@@ -22,6 +22,17 @@ import { Controller } from "react-hook-form";
 
 type EquipmentFormData = z.infer<typeof equipmentSchema>;
 
+// Define the shape of the raw form values (strings from inputs)
+interface EquipmentFormValues {
+    name: string;
+    serialNumber: string;
+    location: string;
+    purchaseDate: string;
+    departmentId: string;
+    maintenanceTeamId: string;
+    warrantyEnd?: string | null;
+}
+
 interface EquipmentFormProps {
     departments: { id: number; name: string }[];
     teams: { id: number; name: string }[];
@@ -37,8 +48,16 @@ export function EquipmentForm({ departments, teams }: EquipmentFormProps) {
         reset,
         control,
         formState: { errors },
-    } = useForm<EquipmentFormData>({
-        resolver: zodResolver(equipmentSchema),
+    } = useForm<EquipmentFormValues, any, EquipmentFormData>({
+        resolver: zodResolver(equipmentSchema) as any,
+        defaultValues: {
+            name: "",
+            serialNumber: "",
+            location: "",
+            purchaseDate: "",
+            departmentId: "",
+            maintenanceTeamId: "",
+        },
     });
 
     async function onSubmit(data: EquipmentFormData) {

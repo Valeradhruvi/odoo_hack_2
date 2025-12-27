@@ -9,8 +9,13 @@ import { authOptions } from "@/lib/auth";
 
 export async function createRequest(formData: FormData) {
     const session = await getServerSession(authOptions);
-    if (!session) {
+    if (!session || !session.user || !session.user.id) {
         return { error: "Unauthorized" };
+    }
+
+    const userId = Number(session.user.id);
+    if (isNaN(userId)) {
+        return { error: "Invalid session. Please logout and login again to refresh your account." };
     }
 
     const rawData = {
@@ -19,14 +24,15 @@ export async function createRequest(formData: FormData) {
         type: formData.get("type"),
         equipmentId: formData.get("equipmentId"),
         scheduledDate: formData.get("scheduledDate"),
-        durationHours: formData.get("durationHours"),
-        maintenanceTeamId: formData.get("maintenanceTeamId"),
+        durationHours: formData.get("durationHours") || undefined,
+        maintenanceTeamId: formData.get("maintenanceTeamId") || undefined,
     };
 
     const validation = requestSchema.safeParse(rawData);
 
     if (!validation.success) {
-        return { error: validation.error.errors[0].message };
+        console.error("Validation Error:", validation.error.format());
+        return { error: validation.error.message };
     }
 
     const data = validation.data;
@@ -44,6 +50,7 @@ export async function createRequest(formData: FormData) {
                 createdById: Number(session.user.id),
             },
         });
+        console.log("Request created successfully");
     } catch (error: any) {
         console.error("Database Error:", error);
         return { error: "Failed to create request: " + error.message };

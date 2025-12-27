@@ -22,7 +22,8 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 
-type RequestFormData = z.infer<typeof requestSchema>;
+type RequestFormData = z.output<typeof requestSchema>;
+type RequestFormInput = z.input<typeof requestSchema>;
 
 export function RequestForm({ equipmentList }: { equipmentList: { id: number; name: string; serialNumber: string }[] }) {
     const searchParams = useSearchParams();
@@ -37,7 +38,7 @@ export function RequestForm({ equipmentList }: { equipmentList: { id: number; na
         reset,
         control,
         formState: { errors },
-    } = useForm<RequestFormData>({
+    } = useForm<RequestFormInput, any, RequestFormData>({
         resolver: zodResolver(requestSchema),
         defaultValues: {
             equipmentId: initialEquipmentId ? Number(initialEquipmentId) : undefined
