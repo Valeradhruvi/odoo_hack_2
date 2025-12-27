@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { Bell, Search } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { UserNav } from "./UserNav";
 
 export async function Header() {
     const session = await getServerSession(authOptions);
@@ -38,21 +39,15 @@ export async function Header() {
                     </button>
                 </div>
 
-                <div className="h-10 w-[1px] bg-gradient-to-b from-transparent via-zinc-200 dark:via-white/10 to-transparent" />
-
-                <div className="flex items-center gap-4 pl-2 group cursor-pointer bg-transparent hover:bg-white/5 p-1.5 rounded-2xl transition-all">
-                    <div className="flex flex-col text-right">
-                        <span className="text-sm font-black text-zinc-800 dark:text-zinc-100 group-hover:text-indigo-500 transition-colors tracking-tight">
-                            {user?.name || 'Guest User'}
-                        </span>
-                        <span className="text-[10px] font-black text-indigo-600/60 dark:text-indigo-400/60 uppercase tracking-[0.2em]">
-                            {user?.role || 'Visitor'}
-                        </span>
-                    </div>
-                    <div className="w-11 h-11 rounded-[18px] bg-gradient-to-tr from-indigo-600 via-indigo-500 to-purple-500 flex items-center justify-center text-white font-black text-lg shadow-xl shadow-indigo-500/30 ring-2 ring-white dark:ring-slate-900 group-hover:scale-105 group-hover:rotate-3 transition-all duration-300">
-                        {initials}
-                    </div>
-                </div>
+                <UserNav
+                    user={{
+                        name: user?.name,
+                        email: user?.email,
+                        image: user?.image,
+                        role: user?.role
+                    }}
+                    initials={initials}
+                />
             </div>
         </header>
     );

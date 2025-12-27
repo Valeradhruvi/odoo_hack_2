@@ -21,7 +21,7 @@ const navItems = [
     { name: 'Maintenance Calendar', href: '/requests/calendar', icon: Calendar },
     { name: 'Analytics & Reports', href: '/reports', icon: BarChart3 },
     { name: 'Equipment Pool', href: '#', icon: Box },
-    { name: 'Teams & Technicians', href: '#', icon: Users },
+    { name: 'Teams & Technicians', href: '/teams', icon: Users },
 ];
 
 export function Sidebar() {

@@ -114,10 +114,12 @@ export function ReportsView({ requests }: ReportsViewProps) {
                                     contentStyle={{
                                         borderRadius: '16px',
                                         border: 'none',
-                                        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                                        backgroundColor: 'rgba(255, 255, 255, 0.95)',
                                         backdropFilter: 'blur(8px)',
                                         boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.1)',
-                                        padding: '12px'
+                                        padding: '12px',
+                                        zIndex: 1000,
+                                        color: '#000'
                                     }}
                                 />
                                 <Bar dataKey="value" fill="url(#colorBar)" radius={10} barSize={45}>
@@ -152,10 +154,12 @@ export function ReportsView({ requests }: ReportsViewProps) {
                                     contentStyle={{
                                         borderRadius: '16px',
                                         border: 'none',
-                                        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                                        backgroundColor: 'rgba(255, 255, 255, 0.95)',
                                         backdropFilter: 'blur(8px)',
                                         boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.1)',
-                                        padding: '12px'
+                                        padding: '12px',
+                                        zIndex: 1000,
+                                        color: '#000'
                                     }}
                                 />
                                 <Bar dataKey="value" fill="#ec4899" radius={10} barSize={22} />
