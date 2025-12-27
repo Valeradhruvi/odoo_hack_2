@@ -20,34 +20,50 @@ export type EquipmentModel = runtime.Types.Result.DefaultSelection<Prisma.$Equip
 
 export type AggregateEquipment = {
   _count: EquipmentCountAggregateOutputType | null
+  _avg: EquipmentAvgAggregateOutputType | null
+  _sum: EquipmentSumAggregateOutputType | null
   _min: EquipmentMinAggregateOutputType | null
   _max: EquipmentMaxAggregateOutputType | null
 }
 
+export type EquipmentAvgAggregateOutputType = {
+  id: number | null
+  departmentId: number | null
+  ownerId: number | null
+  maintenanceTeamId: number | null
+}
+
+export type EquipmentSumAggregateOutputType = {
+  id: number | null
+  departmentId: number | null
+  ownerId: number | null
+  maintenanceTeamId: number | null
+}
+
 export type EquipmentMinAggregateOutputType = {
-  id: string | null
+  id: number | null
   name: string | null
   serialNumber: string | null
   purchaseDate: Date | null
   warrantyEnd: Date | null
   location: string | null
-  departmentId: string | null
-  ownerId: string | null
-  maintenanceTeamId: string | null
+  departmentId: number | null
+  ownerId: number | null
+  maintenanceTeamId: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
 
 export type EquipmentMaxAggregateOutputType = {
-  id: string | null
+  id: number | null
   name: string | null
   serialNumber: string | null
   purchaseDate: Date | null
   warrantyEnd: Date | null
   location: string | null
-  departmentId: string | null
-  ownerId: string | null
-  maintenanceTeamId: string | null
+  departmentId: number | null
+  ownerId: number | null
+  maintenanceTeamId: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -67,6 +83,20 @@ export type EquipmentCountAggregateOutputType = {
   _all: number
 }
 
+
+export type EquipmentAvgAggregateInputType = {
+  id?: true
+  departmentId?: true
+  ownerId?: true
+  maintenanceTeamId?: true
+}
+
+export type EquipmentSumAggregateInputType = {
+  id?: true
+  departmentId?: true
+  ownerId?: true
+  maintenanceTeamId?: true
+}
 
 export type EquipmentMinAggregateInputType = {
   id?: true
@@ -149,6 +179,18 @@ export type EquipmentAggregateArgs<ExtArgs extends runtime.Types.Extensions.Inte
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: EquipmentAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: EquipmentSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: EquipmentMinAggregateInputType
@@ -179,23 +221,27 @@ export type EquipmentGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   _count?: EquipmentCountAggregateInputType | true
+  _avg?: EquipmentAvgAggregateInputType
+  _sum?: EquipmentSumAggregateInputType
   _min?: EquipmentMinAggregateInputType
   _max?: EquipmentMaxAggregateInputType
 }
 
 export type EquipmentGroupByOutputType = {
-  id: string
+  id: number
   name: string
   serialNumber: string
   purchaseDate: Date
   warrantyEnd: Date | null
   location: string
-  departmentId: string
-  ownerId: string
-  maintenanceTeamId: string
+  departmentId: number
+  ownerId: number
+  maintenanceTeamId: number
   createdAt: Date
   updatedAt: Date
   _count: EquipmentCountAggregateOutputType | null
+  _avg: EquipmentAvgAggregateOutputType | null
+  _sum: EquipmentSumAggregateOutputType | null
   _min: EquipmentMinAggregateOutputType | null
   _max: EquipmentMaxAggregateOutputType | null
 }
@@ -219,15 +265,15 @@ export type EquipmentWhereInput = {
   AND?: Prisma.EquipmentWhereInput | Prisma.EquipmentWhereInput[]
   OR?: Prisma.EquipmentWhereInput[]
   NOT?: Prisma.EquipmentWhereInput | Prisma.EquipmentWhereInput[]
-  id?: Prisma.StringFilter<"Equipment"> | string
+  id?: Prisma.IntFilter<"Equipment"> | number
   name?: Prisma.StringFilter<"Equipment"> | string
   serialNumber?: Prisma.StringFilter<"Equipment"> | string
   purchaseDate?: Prisma.DateTimeFilter<"Equipment"> | Date | string
   warrantyEnd?: Prisma.DateTimeNullableFilter<"Equipment"> | Date | string | null
   location?: Prisma.StringFilter<"Equipment"> | string
-  departmentId?: Prisma.StringFilter<"Equipment"> | string
-  ownerId?: Prisma.StringFilter<"Equipment"> | string
-  maintenanceTeamId?: Prisma.StringFilter<"Equipment"> | string
+  departmentId?: Prisma.IntFilter<"Equipment"> | number
+  ownerId?: Prisma.IntFilter<"Equipment"> | number
+  maintenanceTeamId?: Prisma.IntFilter<"Equipment"> | number
   createdAt?: Prisma.DateTimeFilter<"Equipment"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Equipment"> | Date | string
   department?: Prisma.XOR<Prisma.DepartmentScalarRelationFilter, Prisma.DepartmentWhereInput>
@@ -255,7 +301,7 @@ export type EquipmentOrderByWithRelationInput = {
 }
 
 export type EquipmentWhereUniqueInput = Prisma.AtLeast<{
-  id?: string
+  id?: number
   serialNumber?: string
   AND?: Prisma.EquipmentWhereInput | Prisma.EquipmentWhereInput[]
   OR?: Prisma.EquipmentWhereInput[]
@@ -264,9 +310,9 @@ export type EquipmentWhereUniqueInput = Prisma.AtLeast<{
   purchaseDate?: Prisma.DateTimeFilter<"Equipment"> | Date | string
   warrantyEnd?: Prisma.DateTimeNullableFilter<"Equipment"> | Date | string | null
   location?: Prisma.StringFilter<"Equipment"> | string
-  departmentId?: Prisma.StringFilter<"Equipment"> | string
-  ownerId?: Prisma.StringFilter<"Equipment"> | string
-  maintenanceTeamId?: Prisma.StringFilter<"Equipment"> | string
+  departmentId?: Prisma.IntFilter<"Equipment"> | number
+  ownerId?: Prisma.IntFilter<"Equipment"> | number
+  maintenanceTeamId?: Prisma.IntFilter<"Equipment"> | number
   createdAt?: Prisma.DateTimeFilter<"Equipment"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Equipment"> | Date | string
   department?: Prisma.XOR<Prisma.DepartmentScalarRelationFilter, Prisma.DepartmentWhereInput>
@@ -288,29 +334,30 @@ export type EquipmentOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.EquipmentCountOrderByAggregateInput
+  _avg?: Prisma.EquipmentAvgOrderByAggregateInput
   _max?: Prisma.EquipmentMaxOrderByAggregateInput
   _min?: Prisma.EquipmentMinOrderByAggregateInput
+  _sum?: Prisma.EquipmentSumOrderByAggregateInput
 }
 
 export type EquipmentScalarWhereWithAggregatesInput = {
   AND?: Prisma.EquipmentScalarWhereWithAggregatesInput | Prisma.EquipmentScalarWhereWithAggregatesInput[]
   OR?: Prisma.EquipmentScalarWhereWithAggregatesInput[]
   NOT?: Prisma.EquipmentScalarWhereWithAggregatesInput | Prisma.EquipmentScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"Equipment"> | string
+  id?: Prisma.IntWithAggregatesFilter<"Equipment"> | number
   name?: Prisma.StringWithAggregatesFilter<"Equipment"> | string
   serialNumber?: Prisma.StringWithAggregatesFilter<"Equipment"> | string
   purchaseDate?: Prisma.DateTimeWithAggregatesFilter<"Equipment"> | Date | string
   warrantyEnd?: Prisma.DateTimeNullableWithAggregatesFilter<"Equipment"> | Date | string | null
   location?: Prisma.StringWithAggregatesFilter<"Equipment"> | string
-  departmentId?: Prisma.StringWithAggregatesFilter<"Equipment"> | string
-  ownerId?: Prisma.StringWithAggregatesFilter<"Equipment"> | string
-  maintenanceTeamId?: Prisma.StringWithAggregatesFilter<"Equipment"> | string
+  departmentId?: Prisma.IntWithAggregatesFilter<"Equipment"> | number
+  ownerId?: Prisma.IntWithAggregatesFilter<"Equipment"> | number
+  maintenanceTeamId?: Prisma.IntWithAggregatesFilter<"Equipment"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Equipment"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Equipment"> | Date | string
 }
 
 export type EquipmentCreateInput = {
-  id?: string
   name: string
   serialNumber: string
   purchaseDate: Date | string
@@ -325,22 +372,21 @@ export type EquipmentCreateInput = {
 }
 
 export type EquipmentUncheckedCreateInput = {
-  id?: string
+  id?: number
   name: string
   serialNumber: string
   purchaseDate: Date | string
   warrantyEnd?: Date | string | null
   location: string
-  departmentId: string
-  ownerId: string
-  maintenanceTeamId: string
+  departmentId: number
+  ownerId: number
+  maintenanceTeamId: number
   createdAt?: Date | string
   updatedAt?: Date | string
   requests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutEquipmentInput
 }
 
 export type EquipmentUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   serialNumber?: Prisma.StringFieldUpdateOperationsInput | string
   purchaseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -355,36 +401,35 @@ export type EquipmentUpdateInput = {
 }
 
 export type EquipmentUncheckedUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   serialNumber?: Prisma.StringFieldUpdateOperationsInput | string
   purchaseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   warrantyEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   location?: Prisma.StringFieldUpdateOperationsInput | string
-  departmentId?: Prisma.StringFieldUpdateOperationsInput | string
-  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
-  maintenanceTeamId?: Prisma.StringFieldUpdateOperationsInput | string
+  departmentId?: Prisma.IntFieldUpdateOperationsInput | number
+  ownerId?: Prisma.IntFieldUpdateOperationsInput | number
+  maintenanceTeamId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   requests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutEquipmentNestedInput
 }
 
 export type EquipmentCreateManyInput = {
-  id?: string
+  id?: number
   name: string
   serialNumber: string
   purchaseDate: Date | string
   warrantyEnd?: Date | string | null
   location: string
-  departmentId: string
-  ownerId: string
-  maintenanceTeamId: string
+  departmentId: number
+  ownerId: number
+  maintenanceTeamId: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type EquipmentUpdateManyMutationInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   serialNumber?: Prisma.StringFieldUpdateOperationsInput | string
   purchaseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -395,15 +440,15 @@ export type EquipmentUpdateManyMutationInput = {
 }
 
 export type EquipmentUncheckedUpdateManyInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   serialNumber?: Prisma.StringFieldUpdateOperationsInput | string
   purchaseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   warrantyEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   location?: Prisma.StringFieldUpdateOperationsInput | string
-  departmentId?: Prisma.StringFieldUpdateOperationsInput | string
-  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
-  maintenanceTeamId?: Prisma.StringFieldUpdateOperationsInput | string
+  departmentId?: Prisma.IntFieldUpdateOperationsInput | number
+  ownerId?: Prisma.IntFieldUpdateOperationsInput | number
+  maintenanceTeamId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -432,6 +477,13 @@ export type EquipmentCountOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
+export type EquipmentAvgOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+  departmentId?: Prisma.SortOrder
+  ownerId?: Prisma.SortOrder
+  maintenanceTeamId?: Prisma.SortOrder
+}
+
 export type EquipmentMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
@@ -458,6 +510,13 @@ export type EquipmentMinOrderByAggregateInput = {
   maintenanceTeamId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type EquipmentSumOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+  departmentId?: Prisma.SortOrder
+  ownerId?: Prisma.SortOrder
+  maintenanceTeamId?: Prisma.SortOrder
 }
 
 export type EquipmentScalarRelationFilter = {
@@ -606,7 +665,6 @@ export type EquipmentUpdateOneRequiredWithoutRequestsNestedInput = {
 }
 
 export type EquipmentCreateWithoutOwnerInput = {
-  id?: string
   name: string
   serialNumber: string
   purchaseDate: Date | string
@@ -620,14 +678,14 @@ export type EquipmentCreateWithoutOwnerInput = {
 }
 
 export type EquipmentUncheckedCreateWithoutOwnerInput = {
-  id?: string
+  id?: number
   name: string
   serialNumber: string
   purchaseDate: Date | string
   warrantyEnd?: Date | string | null
   location: string
-  departmentId: string
-  maintenanceTeamId: string
+  departmentId: number
+  maintenanceTeamId: number
   createdAt?: Date | string
   updatedAt?: Date | string
   requests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutEquipmentInput
@@ -663,21 +721,20 @@ export type EquipmentScalarWhereInput = {
   AND?: Prisma.EquipmentScalarWhereInput | Prisma.EquipmentScalarWhereInput[]
   OR?: Prisma.EquipmentScalarWhereInput[]
   NOT?: Prisma.EquipmentScalarWhereInput | Prisma.EquipmentScalarWhereInput[]
-  id?: Prisma.StringFilter<"Equipment"> | string
+  id?: Prisma.IntFilter<"Equipment"> | number
   name?: Prisma.StringFilter<"Equipment"> | string
   serialNumber?: Prisma.StringFilter<"Equipment"> | string
   purchaseDate?: Prisma.DateTimeFilter<"Equipment"> | Date | string
   warrantyEnd?: Prisma.DateTimeNullableFilter<"Equipment"> | Date | string | null
   location?: Prisma.StringFilter<"Equipment"> | string
-  departmentId?: Prisma.StringFilter<"Equipment"> | string
-  ownerId?: Prisma.StringFilter<"Equipment"> | string
-  maintenanceTeamId?: Prisma.StringFilter<"Equipment"> | string
+  departmentId?: Prisma.IntFilter<"Equipment"> | number
+  ownerId?: Prisma.IntFilter<"Equipment"> | number
+  maintenanceTeamId?: Prisma.IntFilter<"Equipment"> | number
   createdAt?: Prisma.DateTimeFilter<"Equipment"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Equipment"> | Date | string
 }
 
 export type EquipmentCreateWithoutDepartmentInput = {
-  id?: string
   name: string
   serialNumber: string
   purchaseDate: Date | string
@@ -691,14 +748,14 @@ export type EquipmentCreateWithoutDepartmentInput = {
 }
 
 export type EquipmentUncheckedCreateWithoutDepartmentInput = {
-  id?: string
+  id?: number
   name: string
   serialNumber: string
   purchaseDate: Date | string
   warrantyEnd?: Date | string | null
   location: string
-  ownerId: string
-  maintenanceTeamId: string
+  ownerId: number
+  maintenanceTeamId: number
   createdAt?: Date | string
   updatedAt?: Date | string
   requests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutEquipmentInput
@@ -731,7 +788,6 @@ export type EquipmentUpdateManyWithWhereWithoutDepartmentInput = {
 }
 
 export type EquipmentCreateWithoutTeamInput = {
-  id?: string
   name: string
   serialNumber: string
   purchaseDate: Date | string
@@ -745,14 +801,14 @@ export type EquipmentCreateWithoutTeamInput = {
 }
 
 export type EquipmentUncheckedCreateWithoutTeamInput = {
-  id?: string
+  id?: number
   name: string
   serialNumber: string
   purchaseDate: Date | string
   warrantyEnd?: Date | string | null
   location: string
-  departmentId: string
-  ownerId: string
+  departmentId: number
+  ownerId: number
   createdAt?: Date | string
   updatedAt?: Date | string
   requests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutEquipmentInput
@@ -785,7 +841,6 @@ export type EquipmentUpdateManyWithWhereWithoutTeamInput = {
 }
 
 export type EquipmentCreateWithoutRequestsInput = {
-  id?: string
   name: string
   serialNumber: string
   purchaseDate: Date | string
@@ -799,15 +854,15 @@ export type EquipmentCreateWithoutRequestsInput = {
 }
 
 export type EquipmentUncheckedCreateWithoutRequestsInput = {
-  id?: string
+  id?: number
   name: string
   serialNumber: string
   purchaseDate: Date | string
   warrantyEnd?: Date | string | null
   location: string
-  departmentId: string
-  ownerId: string
-  maintenanceTeamId: string
+  departmentId: number
+  ownerId: number
+  maintenanceTeamId: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -829,7 +884,6 @@ export type EquipmentUpdateToOneWithWhereWithoutRequestsInput = {
 }
 
 export type EquipmentUpdateWithoutRequestsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   serialNumber?: Prisma.StringFieldUpdateOperationsInput | string
   purchaseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -843,34 +897,33 @@ export type EquipmentUpdateWithoutRequestsInput = {
 }
 
 export type EquipmentUncheckedUpdateWithoutRequestsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   serialNumber?: Prisma.StringFieldUpdateOperationsInput | string
   purchaseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   warrantyEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   location?: Prisma.StringFieldUpdateOperationsInput | string
-  departmentId?: Prisma.StringFieldUpdateOperationsInput | string
-  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
-  maintenanceTeamId?: Prisma.StringFieldUpdateOperationsInput | string
+  departmentId?: Prisma.IntFieldUpdateOperationsInput | number
+  ownerId?: Prisma.IntFieldUpdateOperationsInput | number
+  maintenanceTeamId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type EquipmentCreateManyOwnerInput = {
-  id?: string
+  id?: number
   name: string
   serialNumber: string
   purchaseDate: Date | string
   warrantyEnd?: Date | string | null
   location: string
-  departmentId: string
-  maintenanceTeamId: string
+  departmentId: number
+  maintenanceTeamId: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type EquipmentUpdateWithoutOwnerInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   serialNumber?: Prisma.StringFieldUpdateOperationsInput | string
   purchaseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -884,47 +937,46 @@ export type EquipmentUpdateWithoutOwnerInput = {
 }
 
 export type EquipmentUncheckedUpdateWithoutOwnerInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   serialNumber?: Prisma.StringFieldUpdateOperationsInput | string
   purchaseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   warrantyEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   location?: Prisma.StringFieldUpdateOperationsInput | string
-  departmentId?: Prisma.StringFieldUpdateOperationsInput | string
-  maintenanceTeamId?: Prisma.StringFieldUpdateOperationsInput | string
+  departmentId?: Prisma.IntFieldUpdateOperationsInput | number
+  maintenanceTeamId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   requests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutEquipmentNestedInput
 }
 
 export type EquipmentUncheckedUpdateManyWithoutOwnerInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   serialNumber?: Prisma.StringFieldUpdateOperationsInput | string
   purchaseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   warrantyEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   location?: Prisma.StringFieldUpdateOperationsInput | string
-  departmentId?: Prisma.StringFieldUpdateOperationsInput | string
-  maintenanceTeamId?: Prisma.StringFieldUpdateOperationsInput | string
+  departmentId?: Prisma.IntFieldUpdateOperationsInput | number
+  maintenanceTeamId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type EquipmentCreateManyDepartmentInput = {
-  id?: string
+  id?: number
   name: string
   serialNumber: string
   purchaseDate: Date | string
   warrantyEnd?: Date | string | null
   location: string
-  ownerId: string
-  maintenanceTeamId: string
+  ownerId: number
+  maintenanceTeamId: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type EquipmentUpdateWithoutDepartmentInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   serialNumber?: Prisma.StringFieldUpdateOperationsInput | string
   purchaseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -938,47 +990,46 @@ export type EquipmentUpdateWithoutDepartmentInput = {
 }
 
 export type EquipmentUncheckedUpdateWithoutDepartmentInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   serialNumber?: Prisma.StringFieldUpdateOperationsInput | string
   purchaseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   warrantyEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   location?: Prisma.StringFieldUpdateOperationsInput | string
-  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
-  maintenanceTeamId?: Prisma.StringFieldUpdateOperationsInput | string
+  ownerId?: Prisma.IntFieldUpdateOperationsInput | number
+  maintenanceTeamId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   requests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutEquipmentNestedInput
 }
 
 export type EquipmentUncheckedUpdateManyWithoutDepartmentInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   serialNumber?: Prisma.StringFieldUpdateOperationsInput | string
   purchaseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   warrantyEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   location?: Prisma.StringFieldUpdateOperationsInput | string
-  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
-  maintenanceTeamId?: Prisma.StringFieldUpdateOperationsInput | string
+  ownerId?: Prisma.IntFieldUpdateOperationsInput | number
+  maintenanceTeamId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type EquipmentCreateManyTeamInput = {
-  id?: string
+  id?: number
   name: string
   serialNumber: string
   purchaseDate: Date | string
   warrantyEnd?: Date | string | null
   location: string
-  departmentId: string
-  ownerId: string
+  departmentId: number
+  ownerId: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type EquipmentUpdateWithoutTeamInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   serialNumber?: Prisma.StringFieldUpdateOperationsInput | string
   purchaseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -992,28 +1043,28 @@ export type EquipmentUpdateWithoutTeamInput = {
 }
 
 export type EquipmentUncheckedUpdateWithoutTeamInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   serialNumber?: Prisma.StringFieldUpdateOperationsInput | string
   purchaseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   warrantyEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   location?: Prisma.StringFieldUpdateOperationsInput | string
-  departmentId?: Prisma.StringFieldUpdateOperationsInput | string
-  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
+  departmentId?: Prisma.IntFieldUpdateOperationsInput | number
+  ownerId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   requests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutEquipmentNestedInput
 }
 
 export type EquipmentUncheckedUpdateManyWithoutTeamInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   serialNumber?: Prisma.StringFieldUpdateOperationsInput | string
   purchaseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   warrantyEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   location?: Prisma.StringFieldUpdateOperationsInput | string
-  departmentId?: Prisma.StringFieldUpdateOperationsInput | string
-  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
+  departmentId?: Prisma.IntFieldUpdateOperationsInput | number
+  ownerId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1144,15 +1195,15 @@ export type $EquipmentPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     requests: Prisma.$MaintenanceRequestPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: string
+    id: number
     name: string
     serialNumber: string
     purchaseDate: Date
     warrantyEnd: Date | null
     location: string
-    departmentId: string
-    ownerId: string
-    maintenanceTeamId: string
+    departmentId: number
+    ownerId: number
+    maintenanceTeamId: number
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["equipment"]>
@@ -1582,15 +1633,15 @@ export interface Prisma__EquipmentClient<T, Null = never, ExtArgs extends runtim
  * Fields of the Equipment model
  */
 export interface EquipmentFieldRefs {
-  readonly id: Prisma.FieldRef<"Equipment", 'String'>
+  readonly id: Prisma.FieldRef<"Equipment", 'Int'>
   readonly name: Prisma.FieldRef<"Equipment", 'String'>
   readonly serialNumber: Prisma.FieldRef<"Equipment", 'String'>
   readonly purchaseDate: Prisma.FieldRef<"Equipment", 'DateTime'>
   readonly warrantyEnd: Prisma.FieldRef<"Equipment", 'DateTime'>
   readonly location: Prisma.FieldRef<"Equipment", 'String'>
-  readonly departmentId: Prisma.FieldRef<"Equipment", 'String'>
-  readonly ownerId: Prisma.FieldRef<"Equipment", 'String'>
-  readonly maintenanceTeamId: Prisma.FieldRef<"Equipment", 'String'>
+  readonly departmentId: Prisma.FieldRef<"Equipment", 'Int'>
+  readonly ownerId: Prisma.FieldRef<"Equipment", 'Int'>
+  readonly maintenanceTeamId: Prisma.FieldRef<"Equipment", 'Int'>
   readonly createdAt: Prisma.FieldRef<"Equipment", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Equipment", 'DateTime'>
 }
