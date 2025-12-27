@@ -25,7 +25,15 @@ import {
 type RequestFormData = z.output<typeof requestSchema>;
 type RequestFormInput = z.input<typeof requestSchema>;
 
-export function RequestForm({ equipmentList }: { equipmentList: { id: number; name: string; serialNumber: string }[] }) {
+export function RequestForm({
+    equipmentList,
+    maintenanceTeams,
+    technicians
+}: {
+    equipmentList: { id: number; name: string; serialNumber: string }[],
+    maintenanceTeams: { id: number; name: string }[],
+    technicians: { id: number; name: string }[]
+}) {
     const searchParams = useSearchParams();
     const initialEquipmentId = searchParams.get("equipmentId") || "";
 
@@ -124,6 +132,28 @@ export function RequestForm({ equipmentList }: { equipmentList: { id: number; na
                                 )}
                             />
                             {errors.equipmentId && <p className="text-sm text-red-500">{errors.equipmentId.message}</p>}
+                        </div>
+
+                        <div className="space-y-2">
+                            <Label htmlFor="maintenanceTeamId">Maintenance Team (Optional)</Label>
+                            <Controller
+                                name="maintenanceTeamId"
+                                control={control}
+                                render={({ field }) => (
+                                    <Select onValueChange={(val) => field.onChange(Number(val))} defaultValue={field.value ? String(field.value) : undefined}>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select Team" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {maintenanceTeams.map((team) => (
+                                                <SelectItem key={team.id} value={String(team.id)}>
+                                                    {team.name}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                )}
+                            />
                         </div>
 
                         <div className="space-y-2">
