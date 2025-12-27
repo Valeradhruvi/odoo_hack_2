@@ -11,7 +11,21 @@ async function getTeamsAndTechs() {
     return { teams, technicians };
 }
 
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { redirect } from "next/navigation";
+
+// ... existing imports ...
+
 export default async function NewRequestPage() {
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.email) redirect("/login");
+
+    const user = await prisma.user.findUnique({
+        where: { email: session.user.email },
+        select: { role: true }
+    });
+
     const equipmentList = await getEquipmentList();
     const { teams, technicians } = await getTeamsAndTechs();
 
@@ -23,6 +37,7 @@ export default async function NewRequestPage() {
                     equipmentList={equipmentList}
                     maintenanceTeams={teams}
                     technicians={technicians}
+                    userRole={user?.role}
                 />
             </Suspense>
         </div>

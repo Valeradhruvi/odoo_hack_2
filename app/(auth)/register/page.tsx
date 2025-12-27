@@ -13,8 +13,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Loader2 } from "lucide-react";
+import { Loader2, Wrench, CheckCircle2, ArrowRight } from "lucide-react";
 
 export default function RegisterPage() {
     const router = useRouter();
@@ -30,9 +29,8 @@ export default function RegisterPage() {
         const name = formData.get("name") as string;
         const email = formData.get("email") as string;
         const password = formData.get("password") as string;
-        const role = formData.get("role") as string; // Get role from form data
+        const role = formData.get("role") as string;
 
-        // Simple client-side validation
         if (password.length < 6) {
             setError("Password must be at least 6 characters");
             setIsLoading(false);
@@ -40,12 +38,10 @@ export default function RegisterPage() {
         }
 
         try {
-            const response = await fetch("/api/register", { // We need to create this API route
+            const response = await fetch("/api/register", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ name, email, password, role }), // Include role
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, email, password, role }),
             });
 
             if (!response.ok) {
@@ -62,65 +58,110 @@ export default function RegisterPage() {
     }
 
     return (
-        <div className="flex h-screen w-full items-center justify-center bg-gray-50 px-4 dark:bg-gray-900">
-            <Card className="w-full max-w-sm">
-                <CardHeader>
-                    <CardTitle className="text-2xl">Register</CardTitle>
-                    <CardDescription>
-                        Create an account to get started.
-                    </CardDescription>
-                </CardHeader>
-                <CardContent className="grid gap-4">
-                    <form onSubmit={onSubmit}>
-                        <div className="grid gap-4">
-                            <div className="grid gap-2">
-                                <Label htmlFor="name">Name</Label>
-                                <Input id="name" name="name" placeholder="John Doe" required />
+        <div className="flex min-h-screen bg-white dark:bg-black">
+            {/* Left Side - Visual / Branding (Hidden on mobile) */}
+            <div className="hidden lg:flex lg:w-1/2 relative bg-indigo-950 flex-col justify-between p-12 text-white overflow-hidden">
+                {/* Background Pattern */}
+                <div className="absolute inset-0 z-0 opacity-20">
+                    <div className="absolute inset-0 bg-[linear-gradient(to_right,#818cf8_1px,transparent_1px),linear-gradient(to_bottom,#818cf8_1px,transparent_1px)] [background-size:24px_24px]"></div>
+                </div>
+
+                <div className="relative z-10 flex items-center gap-2">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-indigo-900 shadow-lg">
+                        <Wrench size={20} strokeWidth={3} />
+                    </div>
+                    <span className="text-xl font-bold tracking-tight text-white">GearGuard</span>
+                </div>
+
+                <div className="relative z-10 space-y-8 max-w-lg">
+                    <div>
+                        <h1 className="text-4xl font-extrabold tracking-tight leading-tight mb-4">
+                            Start your maintenance journey.
+                        </h1>
+                        <p className="text-indigo-200 text-lg">
+                            Get full visibility into your equipment status and team assignments in minutes.
+                        </p>
+                    </div>
+
+                    <div className="space-y-4">
+                        {[
+                            "Track real-time equipment health",
+                            "Auto-assign technicians to breakdowns",
+                            "Schedule preventive maintenance"
+                        ].map((item, i) => (
+                            <div key={i} className="flex items-center gap-3">
+                                <div className="h-6 w-6 rounded-full bg-indigo-500/30 flex items-center justify-center text-indigo-300">
+                                    <CheckCircle2 size={14} />
+                                </div>
+                                <span className="font-medium">{item}</span>
                             </div>
-                            <div className="grid gap-2">
-                                <Label htmlFor="email">Email</Label>
-                                <Input
-                                    id="email"
-                                    name="email"
-                                    type="email"
-                                    placeholder="m@example.com"
-                                    required
-                                />
-                            </div>
-                            <div className="grid gap-2">
-                                <Label htmlFor="password">Password</Label>
-                                <Input id="password" name="password" type="password" required />
-                            </div>
-                            <div className="grid gap-2">
-                                <Label htmlFor="role">Role</Label>
-                                <Select name="role" defaultValue="REQUESTER">
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Select a role" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="REQUESTER">Requester</SelectItem>
-                                        <SelectItem value="TECHNICIAN">Technician</SelectItem>
-                                        <SelectItem value="ADMIN">Admin</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            </div>
-                            {error && <p className="text-sm text-red-500">{error}</p>}
-                            <Button className="w-full" type="submit" disabled={isLoading}>
-                                {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                                Sign Up
-                            </Button>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="relative z-10 text-xs text-indigo-300/60 font-mono">
+                    OPERATIONAL EXCELLENCE PLATFORM v2.0
+                </div>
+            </div>
+
+            {/* Right Side - Register Form */}
+            <div className="flex-1 flex flex-col justify-center items-center p-8 bg-zinc-50 dark:bg-zinc-950">
+                <div className="w-full max-w-sm space-y-8">
+                    <div className="text-center lg:text-left">
+                        <h2 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">Create account</h2>
+                        <p className="mt-2 text-zinc-500 dark:text-zinc-400">Set up your workspace in seconds.</p>
+                    </div>
+
+                    <form onSubmit={onSubmit} className="space-y-6">
+                        <div className="space-y-2">
+                            <Label htmlFor="name">Full Name</Label>
+                            <Input id="name" name="name" placeholder="John Doe" required className="h-11 bg-white dark:bg-black" />
                         </div>
+
+                        <div className="space-y-2">
+                            <Label htmlFor="email">Email</Label>
+                            <Input id="email" name="email" type="email" placeholder="name@company.com" required className="h-11 bg-white dark:bg-black" />
+                        </div>
+
+                        <div className="space-y-2">
+                            <Label htmlFor="password">Password</Label>
+                            <Input id="password" name="password" type="password" required className="h-11 bg-white dark:bg-black" />
+                        </div>
+
+                        <div className="space-y-2">
+                            <Label htmlFor="role">I am a...</Label>
+                            <Select name="role" defaultValue="REQUESTER">
+                                <SelectTrigger className="h-11 bg-white dark:bg-black">
+                                    <SelectValue placeholder="Select a role" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="REQUESTER">Requester (Employee)</SelectItem>
+                                    <SelectItem value="TECHNICIAN">Technician</SelectItem>
+                                    <SelectItem value="ADMIN">Maintenance Manager</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </div>
+
+                        {error && (
+                            <div className="p-3 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900 text-sm text-red-600 dark:text-red-400">
+                                {error}
+                            </div>
+                        )}
+
+                        <Button type="submit" className="w-full h-11 bg-indigo-600 hover:bg-indigo-700 text-white" disabled={isLoading}>
+                            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                            Create Account <ArrowRight className="ml-2 h-4 w-4" />
+                        </Button>
                     </form>
-                </CardContent>
-                <CardFooter>
-                    <div className="text-sm text-center w-full text-muted-foreground">
-                        Already have an account?{" "}
-                        <Link href="/login" className="underline underline-offset-4 hover:text-primary">
-                            Login
+
+                    <div className="text-center text-sm">
+                        <span className="text-zinc-500 dark:text-zinc-400">Already have an account? </span>
+                        <Link href="/login" className="font-semibold text-indigo-600 hover:text-indigo-500 dark:text-indigo-400">
+                            Log in
                         </Link>
                     </div>
-                </CardFooter>
-            </Card>
+                </div>
+            </div>
         </div>
     );
 }
