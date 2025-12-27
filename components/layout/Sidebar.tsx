@@ -24,9 +24,19 @@ const navItems = [
     { name: 'Teams & Technicians', href: '/teams', icon: Users },
 ];
 
-export function Sidebar() {
+export function Sidebar({ userRole }: { userRole?: string | null }) {
     const pathname = usePathname();
     const [isCollapsed, setIsCollapsed] = React.useState(false);
+
+    const filteredNavItems = navItems.filter(item => {
+        if (userRole === 'REQUESTER') {
+            // Requesters ONLY see Kanban, Equipment, and Teams (wait, plan said hide Teams. adjusting.)
+            // Plan: Hide "Maintenance Calendar", "Analytics & Reports", "Teams & Technicians".
+            // So Show: "Kanban Board" and "Equipment Pool".
+            return !['Maintenance Calendar', 'Analytics & Reports', 'Teams & Technicians'].includes(item.name);
+        }
+        return true;
+    });
 
     return (
         <aside
@@ -52,7 +62,7 @@ export function Sidebar() {
 
             {/* Navigation */}
             <nav className="flex-1 px-4 py-8 space-y-1.5">
-                {navItems.map((item) => {
+                {filteredNavItems.map((item) => {
                     const isActive = pathname === item.href;
                     return (
                         <Link
